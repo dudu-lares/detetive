@@ -1,0 +1,2039 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detetive Dudu — Agência Pata & Lupa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --khaki-light: #f6eedc;
+            --khaki-mid: #e6d5b8;
+            --khaki-dark: #c5ab82;
+            --forest-deep: #1b3628;
+            --forest-mid: #274c39;
+            --amber-gold: #f59e0b;
+            --leather-brown: #5c3a21;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #14261d;
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(245, 158, 11, 0.08) 0%, transparent 45%),
+                radial-gradient(circle at 80% 80%, rgba(39, 76, 57, 0.35) 0%, transparent 50%);
+            color: #1f2937;
+            user-select: none;
+        }
+
+        h1, h2, h3, .font-display {
+            font-family: 'Fredoka', sans-serif;
+        }
+
+        .font-mono-tech {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Padrão sutil de oncinha inspirado no uniforme do Detetive Dudu */
+        .leopard-trim {
+            background-color: #d99b4e;
+            background-image: 
+                radial-gradient(ellipse 6px 4px at 10px 10px, #4a2c11 45%, #8c5220 55%, transparent 65%),
+                radial-gradient(ellipse 5px 7px at 26px 18px, #4a2c11 45%, #8c5220 55%, transparent 65%),
+                radial-gradient(ellipse 7px 5px at 42px 8px, #4a2c11 45%, #8c5220 55%, transparent 65%),
+                radial-gradient(ellipse 6px 6px at 18px 28px, #4a2c11 45%, #8c5220 55%, transparent 65%),
+                radial-gradient(ellipse 5px 4px at 36px 26px, #4a2c11 45%, #8c5220 55%, transparent 65%);
+            background-size: 50px 34px;
+        }
+
+        /* Textura de papel dossiê */
+        .dossier-paper {
+            background-color: #fcf8ef;
+            background-image: linear-gradient(to bottom, rgba(197, 171, 130, 0.12) 1px, transparent 1px);
+            background-size: 100% 28px;
+        }
+
+        /* Animação do avião no mapa */
+        @keyframes flyPlane {
+            0% { transform: translate(0, 0) scale(0.85) rotate(8deg); opacity: 0; }
+            15% { opacity: 1; }
+            50% { transform: translate(115px, -34px) scale(1.1) rotate(-4deg); }
+            85% { opacity: 1; }
+            100% { transform: translate(230px, 0) scale(0.9) rotate(12deg); opacity: 0; }
+        }
+
+        .animate-flight {
+            animation: flyPlane 1.9s ease-in-out forwards;
+        }
+
+        /* Animações do Mascote Detetive Dudu */
+        @keyframes duduFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-6px) rotate(2deg); }
+        }
+        @keyframes duduJump {
+            0%, 100% { transform: translateY(0) scale(1); }
+            30% { transform: translateY(-22px) scale(1.08) rotate(-5deg); }
+            60% { transform: translateY(-8px) scale(1.04) rotate(5deg); }
+        }
+        @keyframes duduCelebrate {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.15) rotate(-10deg); }
+            50% { transform: scale(1.15) rotate(10deg); }
+            75% { transform: scale(1.1) rotate(-6deg); }
+        }
+        @keyframes soundWave {
+            0%, 100% { height: 6px; }
+            50% { height: 18px; }
+        }
+
+        .dudu-idle { animation: duduFloat 3s ease-in-out infinite; }
+        .dudu-jump { animation: duduJump 0.75s ease-out; }
+        .dudu-celebrate { animation: duduCelebrate 0.8s ease-in-out infinite; }
+        .voice-bar { animation: soundWave 0.55s ease-in-out infinite; }
+
+        /* Carimbo animado */
+        @keyframes stampSlam {
+            0% { transform: scale(2.5) rotate(-18deg); opacity: 0; }
+            70% { transform: scale(0.95) rotate(-12deg); opacity: 1; }
+            100% { transform: scale(1) rotate(-12deg); opacity: 1; }
+        }
+
+        .stamp-effect {
+            animation: stampSlam 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        /* Barra de rolagem customizada */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e6d5b8;
+            border-radius: 8px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #8b6b43;
+            border-radius: 8px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #5c3a21;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between p-2 sm:p-4">
+
+    <!-- BARRA SUPERIOR / HUD DA AGÊNCIA -->
+    <header class="max-w-6xl w-full mx-auto bg-[#1b3628] border-2 border-[#c5ab82] rounded-2xl shadow-2xl overflow-hidden mb-3">
+        <div class="leopard-trim h-2 w-full"></div>
+        <div class="p-3 sm:px-5 flex flex-wrap items-center justify-between gap-3 text-white">
+            <!-- Identidade Detetive Dudu -->
+            <div class="flex items-center gap-3">
+                <div class="relative w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#f6eedc] border-2 border-amber-400 shadow-md overflow-hidden flex-shrink-0 flex items-center justify-center">
+                    <img src="AVATAR_2.png" alt="Detetive Dudu" class="w-full h-full object-cover object-top"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="hidden w-full h-full items-center justify-center bg-amber-100 text-amber-900 font-bold text-xs flex-col">
+                        <span class="text-xl">🐾</span>
+                        <span>DUDU</span>
+                    </div>
+                    <span class="absolute -bottom-0.5 -right-0.5 bg-amber-400 text-[#1b3628] text-[10px] font-black px-1 rounded-full border border-[#1b3628] animate-pulse">🔍</span>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="bg-amber-500 text-[#1b3628] text-[10px] sm:text-xs font-extrabold px-2 py-0.5 rounded-full uppercase tracking-wider">Agência Pata & Lupa</span>
+                        <span id="hud-rank" class="text-xs text-amber-200 font-medium hidden sm:inline">Patente: Novato</span>
+                    </div>
+                    <h1 class="text-lg sm:text-2xl font-bold tracking-tight text-[#fcf8ef] leading-tight">Detetive Dudu: Pelo Mundo</h1>
+                </div>
+            </div>
+
+            <!-- Painel Central: Local e Relógio -->
+            <div id="hud-status-bar" class="hidden flex-1 min-w-[240px] max-w-md bg-[#12241b] border border-[#3a634d] rounded-xl px-3 py-2 flex items-center justify-between gap-2">
+                <div>
+                    <div class="text-[10px] uppercase tracking-wider text-emerald-300 font-semibold">Local Atual</div>
+                    <div id="hud-city" class="text-sm sm:text-base font-bold text-white truncate">Rio de Janeiro, Brasil</div>
+                </div>
+                <div class="h-8 w-[1px] bg-[#3a634d]"></div>
+                <div class="text-right">
+                    <div class="text-[10px] uppercase tracking-wider text-amber-300 font-semibold">Relógio da Missão</div>
+                    <div id="hud-clock" class="font-mono-tech text-sm sm:text-base font-bold text-amber-400">SEG, 08:00</div>
+                </div>
+            </div>
+
+            <!-- Controles Rápidos -->
+            <div class="flex items-center gap-2">
+                <div id="hud-warrant-badge" class="hidden items-center gap-1.5 bg-[#274c39] border border-emerald-500/40 px-3 py-1.5 rounded-xl text-xs">
+                    <span>📜 Mandado:</span>
+                    <span id="hud-warrant-name" class="font-bold text-amber-300">Nenhum</span>
+                </div>
+                <button onclick="toggleVoice()" id="btn-voice" title="Ativar/Desativar Narração em Voz"
+                        class="px-2.5 py-2 rounded-xl bg-[#274c39] hover:bg-[#34634b] border border-[#c5ab82]/40 text-amber-200 text-xs font-bold flex items-center gap-1 transition active:scale-95">
+                    <span>🗣️</span>
+                    <span class="hidden md:inline">Voz ON</span>
+                </button>
+                <button onclick="toggleSound()" id="btn-sound" title="Ativar/Desativar Efeitos Sonoros"
+                        class="p-2 rounded-xl bg-[#274c39] hover:bg-[#34634b] border border-[#c5ab82]/40 text-amber-200 transition active:scale-95">
+                    🔊
+                </button>
+                <button onclick="returnToMenu()" id="btn-menu" title="Menu de Casos"
+                        class="hidden px-3 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-[#1b3628] font-bold text-xs sm:text-sm transition shadow active:scale-95">
+                    30 Casos
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ÁREA PRINCIPAL DO JOGO -->
+    <main class="max-w-6xl w-full mx-auto flex-1 flex flex-col">
+
+        <!-- TELA 1: CAPA ILUSTRADA & SELEÇÃO DOS 30 CASOS -->
+        <section id="screen-menu" class="bg-[#f6eedc] border-2 border-[#c5ab82] rounded-3xl shadow-2xl overflow-hidden flex-1 flex flex-col">
+            <!-- BANNER DE CAPA PRINCIPAL -->
+            <div class="relative overflow-hidden bg-gradient-to-br from-[#1b3628] via-[#234735] to-[#12241b] border-b-4 border-[#5c3a21] text-white">
+                <!-- Imagem de Capa Ilustrada de Fundo -->
+                <img src="watermarked_img_14789739886045490912.jpg" alt="Capa Detetive Dudu Pelo Mundo"
+                     class="absolute inset-0 w-full h-full object-cover opacity-35 mix-blend-luminosity pointer-events-none"
+                     onerror="this.style.display='none';">
+                <div class="absolute inset-0 bg-gradient-to-r from-[#12241b]/95 via-[#1b3628]/80 to-transparent pointer-events-none"></div>
+
+                <div class="relative z-10 p-5 sm:p-8 flex flex-col lg:flex-row items-center gap-6 sm:gap-8">
+                    <!-- Avatar Oficial em Destaque com Lupa -->
+                    <div class="relative flex-shrink-0 group">
+                        <div class="w-40 h-40 sm:w-52 sm:h-52 rounded-3xl bg-gradient-to-b from-amber-200 via-[#e6d5b8] to-[#c5ab82] p-2 border-4 border-amber-400 shadow-2xl flex items-center justify-center overflow-hidden dudu-idle">
+                            <img src="AVATAR_2.png" alt="Detetive Dudu" class="w-full h-full object-contain drop-shadow-lg"
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="hidden flex-col items-center justify-center text-[#5c3a21] text-center p-2">
+                                <span class="text-5xl mb-1">🕵️‍♂️🐾</span>
+                                <span class="font-display font-bold text-lg">Detetive Dudu</span>
+                            </div>
+                        </div>
+                        <div class="absolute -top-3 -right-3 w-12 h-12 rounded-full bg-amber-400 border-4 border-[#1b3628] flex items-center justify-center text-2xl shadow-lg">
+                            🔍
+                        </div>
+                        <div class="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-[#1b3628] text-amber-300 border-2 border-amber-400 px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap shadow">
+                            🐾 Patente: <span id="menu-rank-label">Novato</span>
+                        </div>
+                    </div>
+
+                    <!-- Título e Chamada da Capa -->
+                    <div class="text-center lg:text-left flex-1">
+                        <div class="inline-flex flex-wrap items-center justify-center lg:justify-start gap-2 bg-amber-400/20 border border-amber-400/40 text-amber-200 px-3 py-1 rounded-full text-xs font-bold mb-2">
+                            <span>🌍 EXPEDIÇÃO MUNDIAL • 24 CIDADES</span>
+                            <span>•</span>
+                            <span>CASOS RESOLVIDOS: <span id="menu-solved-count">0/30</span></span>
+                        </div>
+                        <h2 class="text-3xl sm:text-5xl font-extrabold text-[#fcf8ef] tracking-tight drop-shadow mb-2">
+                            Detetive Dudu: <span class="text-amber-400">Pelo Mundo</span>
+                        </h2>
+                        <p class="text-emerald-100 text-sm sm:text-base leading-relaxed mb-5 max-w-2xl">
+                            A Liga dos Vilões Exóticos está agindo nos quatro cantos do planeta! Siga as pistas culturais, ouça os depoimentos narrados, filtre as características no <strong>Computador da Agência</strong> e emita o <strong>Mandado de Prisão</strong> antes que o tempo acabe!
+                        </p>
+                        <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3">
+                            <button onclick="startNextUnsolvedCase()"
+                                    class="px-6 py-3.5 rounded-2xl bg-amber-500 hover:bg-amber-400 text-[#1b3628] font-display font-bold text-base sm:text-lg shadow-xl flex items-center gap-2 transition transform hover:scale-105 active:scale-95">
+                                <span>🚀</span>
+                                <span>Jogar Próximo Caso</span>
+                            </button>
+                            <button onclick="scrollToCases()"
+                                    class="px-5 py-3.5 rounded-2xl bg-[#274c39]/90 hover:bg-[#34634b] border border-amber-300/40 text-amber-100 font-bold text-sm shadow transition active:scale-95">
+                                📂 Escolher entre 30 Casos
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lista de 30 Missões com Filtro por Patente -->
+            <div id="cases-section" class="p-5 sm:p-8 flex-1">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
+                    <h3 class="text-lg sm:text-xl font-bold text-[#1b3628] flex items-center gap-2">
+                        <span>📂</span> Arquivos Confidenciais (30 Missões)
+                    </h3>
+
+                    <!-- Filtros de Patente -->
+                    <div class="flex flex-wrap gap-1.5" id="rank-filter-bar">
+                        <button onclick="setCaseFilter('ALL')" data-filter="ALL" class="case-filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-[#1b3628] text-amber-300 shadow">Todos (30)</button>
+                        <button onclick="setCaseFilter('Novato')" data-filter="Novato" class="case-filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-[#e6d5b8] text-[#5c3a21] hover:bg-[#d8c19c]">Novato (1-8)</button>
+                        <button onclick="setCaseFilter('Investigador')" data-filter="Investigador" class="case-filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-[#e6d5b8] text-[#5c3a21] hover:bg-[#d8c19c]">Investigador (9-16)</button>
+                        <button onclick="setCaseFilter('Detetive Sênior')" data-filter="Detetive Sênior" class="case-filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-[#e6d5b8] text-[#5c3a21] hover:bg-[#d8c19c]">Detetive Sênior (17-24)</button>
+                        <button onclick="setCaseFilter('Ás da Agência')" data-filter="Ás da Agência" class="case-filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-[#e6d5b8] text-[#5c3a21] hover:bg-[#d8c19c]">Ás da Agência (25-30)</button>
+                    </div>
+                </div>
+
+                <div id="cases-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Preenchido via JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- TELA 2: JOGO ATIVO (PAINEL DE INVESTIGAÇÃO) -->
+        <section id="screen-game" class="hidden flex-1 flex flex-col gap-3">
+            
+            <!-- Barra de Progresso do Tempo e Alerta -->
+            <div class="bg-[#1b3628] border border-[#c5ab82] rounded-2xl p-3 text-white flex flex-col sm:flex-row items-center justify-between gap-3 shadow-lg">
+                <div class="flex items-center gap-3 w-full sm:w-auto">
+                    <span class="text-2xl">⏳</span>
+                    <div class="flex-1 sm:w-64">
+                        <div class="flex justify-between text-xs mb-1">
+                            <span id="deadline-label" class="text-amber-200 font-semibold">Prazo Limite</span>
+                            <span id="time-remaining-label" class="font-mono-tech font-bold text-emerald-300">106h restantes</span>
+                        </div>
+                        <div class="w-full h-2.5 bg-[#0f1f17] rounded-full overflow-hidden border border-[#3a634d]">
+                            <div id="time-progress-bar" class="h-full bg-gradient-to-r from-emerald-400 via-amber-400 to-rose-500 transition-all duration-500" style="width: 100%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botões Principais de Ação com Ícones do Dudu -->
+                <div class="grid grid-cols-4 gap-2 w-full sm:w-auto">
+                    <button onclick="switchTab('investigate')" id="tab-investigate"
+                            class="tab-btn bg-amber-500 text-[#1b3628] font-bold px-3 py-2.5 rounded-xl text-xs sm:text-sm flex flex-col sm:flex-row items-center justify-center gap-1.5 shadow transition active:scale-95">
+                        <img src="AVATAR_2.png" alt="" class="w-5 h-5 rounded-full object-cover object-top border border-[#1b3628]" onerror="this.style.display='none'">
+                        <span>🔍 Investigar</span>
+                    </button>
+                    <button onclick="switchTab('travel')" id="tab-travel"
+                            class="tab-btn bg-[#274c39] hover:bg-[#34634b] text-white font-bold px-3 py-2.5 rounded-xl text-xs sm:text-sm flex flex-col sm:flex-row items-center justify-center gap-1.5 border border-[#c5ab82]/30 transition active:scale-95">
+                        <span>✈️</span>
+                        <span>Viajar</span>
+                    </button>
+                    <button onclick="switchTab('computer')" id="tab-computer"
+                            class="tab-btn bg-[#274c39] hover:bg-[#34634b] text-white font-bold px-3 py-2.5 rounded-xl text-xs sm:text-sm flex flex-col sm:flex-row items-center justify-center gap-1.5 border border-[#c5ab82]/30 transition active:scale-95">
+                        <span>💻</span>
+                        <span>Mandado</span>
+                    </button>
+                    <button onclick="switchTab('notebook')" id="tab-notebook"
+                            class="tab-btn bg-[#274c39] hover:bg-[#34634b] text-white font-bold px-3 py-2.5 rounded-xl text-xs sm:text-sm flex flex-col sm:flex-row items-center justify-center gap-1.5 border border-[#c5ab82]/30 transition active:scale-95 relative">
+                        <span>📓</span>
+                        <span>Notas</span>
+                        <span id="clue-counter-badge" class="absolute -top-1.5 -right-1.5 bg-amber-400 text-[#1b3628] text-[10px] font-extrabold w-5 h-5 rounded-full flex items-center justify-center shadow">0</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Conteúdo Dividido: Cenário/Visual à Esquerda + Painel Interativo à Direita -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 flex-1">
+                
+                <!-- COLUNA ESQUERDA: VISOR DA CIDADE & DETETIVE DUDU (5 colunas) -->
+                <div class="lg:col-span-5 bg-[#f6eedc] border-2 border-[#c5ab82] rounded-3xl overflow-hidden flex flex-col shadow-xl">
+                    <!-- Banner Ilustrado da Cidade -->
+                    <div id="city-visual-banner" class="relative h-48 sm:h-56 p-5 flex flex-col justify-between text-white overflow-hidden transition-all duration-500 bg-gradient-to-br from-emerald-800 to-teal-950">
+                        <div id="city-landmark-emoji" class="absolute right-4 bottom-2 text-7xl sm:text-8xl opacity-25 pointer-events-none select-none">🏛️</div>
+                        
+                        <div class="relative z-10 flex justify-between items-start">
+                            <span id="city-region-tag" class="bg-black/40 backdrop-blur-sm border border-white/20 px-3 py-1 rounded-full text-xs font-bold tracking-wide">
+                                América do Sul
+                            </span>
+                            <span id="city-flag-emoji" class="text-3xl drop-shadow">🇧🇷</span>
+                        </div>
+
+                        <div class="relative z-10">
+                            <h2 id="city-title" class="text-2xl sm:text-3xl font-bold drop-shadow-md">Rio de Janeiro</h2>
+                            <p id="city-country" class="text-sm text-amber-200 font-semibold">Brasil • Moeda: Real (R$)</p>
+                        </div>
+                    </div>
+
+                    <!-- Descrição da Cidade + Caixa de Fala do Dudu -->
+                    <div class="p-4 sm:p-5 flex-1 flex flex-col justify-between gap-4 bg-[#fcf8ef]">
+                        <div>
+                            <div class="flex items-center justify-between mb-1">
+                                <span class="text-xs font-bold uppercase tracking-wider text-[#8b6b43]">Relatório Geográfico</span>
+                                <span id="city-monument-tag" class="text-[11px] font-bold text-[#1b3628] bg-[#e6d5b8] px-2 py-0.5 rounded-md">Cristo Redentor</span>
+                            </div>
+                            <p id="city-description" class="text-sm text-slate-700 leading-relaxed">
+                                Famosa por suas praias deslumbrantes, o Cristo Redentor e o Pão de Açúcar.
+                            </p>
+                        </div>
+
+                        <!-- Balão de Orientação do Detetive Dudu Animado -->
+                        <div class="bg-[#e6d5b8]/70 border-2 border-[#c5ab82] rounded-2xl p-3 flex items-center gap-3">
+                            <div id="dudu-mascot-box" class="w-16 h-16 rounded-2xl bg-amber-100 border-2 border-[#5c3a21] overflow-hidden flex-shrink-0 flex items-center justify-center shadow dudu-idle">
+                                <img src="AVATAR_2.png" alt="Dudu" class="w-full h-full object-cover object-top"
+                                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <span class="hidden text-2xl">🐾</span>
+                            </div>
+                            <div class="flex-1">
+                                <div class="text-xs font-bold text-[#5c3a21] flex items-center justify-between">
+                                    <span>🐾 Detetive Dudu:</span>
+                                    <!-- Ondas Sonoras quando o Dudu/Sistema está narrando -->
+                                    <div id="voice-wave-indicator" class="hidden items-end gap-0.5 h-4">
+                                        <span class="w-1 bg-amber-600 rounded-full voice-bar" style="animation-delay: 0s"></span>
+                                        <span class="w-1 bg-amber-600 rounded-full voice-bar" style="animation-delay: 0.15s"></span>
+                                        <span class="w-1 bg-amber-600 rounded-full voice-bar" style="animation-delay: 0.3s"></span>
+                                        <span class="w-1 bg-amber-600 rounded-full voice-bar" style="animation-delay: 0.1s"></span>
+                                    </div>
+                                </div>
+                                <p id="dudu-hint-text" class="text-xs sm:text-sm text-slate-800 mt-0.5 leading-snug">
+                                    "Clique nos locais ao lado para conversar com testemunhas e descobrir para onde o suspeito fugiu!"
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- COLUNA DIREITA: TERMINAL DE AÇÕES (7 colunas) -->
+                <div class="lg:col-span-7 bg-[#fcf8ef] border-2 border-[#c5ab82] rounded-3xl p-4 sm:p-6 shadow-xl flex flex-col justify-between">
+                    
+                    <!-- ABA 1: INVESTIGAR LOCAIS -->
+                    <div id="panel-investigate" class="flex-1 flex flex-col">
+                        <div class="flex items-center justify-between border-b-2 border-[#e6d5b8] pb-3 mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-[#1b3628]">🔍 Locais de Investigação</h3>
+                                <p class="text-xs text-slate-600">Cada entrevista consome <strong>2 horas</strong> e lê a pista em voz alta.</p>
+                            </div>
+                            <span class="bg-amber-100 text-amber-900 border border-amber-300 text-xs font-bold px-2.5 py-1 rounded-lg">
+                                3 Pontos na Cidade
+                            </span>
+                        </div>
+
+                        <!-- Botões dos 3 Locais -->
+                        <div id="locations-list" class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+                            <!-- Gerado via JS -->
+                        </div>
+
+                        <!-- Visor de Depoimento / Testemunha -->
+                        <div class="flex-1 bg-[#1b3628] text-[#fcf8ef] rounded-2xl p-4 sm:p-5 border-2 border-[#5c3a21] flex flex-col justify-between min-h-[210px] relative overflow-hidden">
+                            <div class="flex items-center justify-between gap-3 border-b border-[#3a634d] pb-3 mb-3">
+                                <div class="flex items-center gap-3">
+                                    <div id="witness-avatar" class="w-12 h-12 rounded-xl bg-[#274c39] border border-amber-400/50 flex items-center justify-center text-2xl">
+                                        🕵️
+                                    </div>
+                                    <div>
+                                        <div id="witness-role" class="text-[11px] uppercase tracking-wider text-amber-300 font-bold">Aguardando Investigação</div>
+                                        <div id="witness-name" class="text-base sm:text-lg font-bold text-white">Selecione um local acima</div>
+                                    </div>
+                                </div>
+                                <button id="btn-replay-clue" onclick="replayCurrentClue()" title="Ouvir Pista Novamente"
+                                        class="hidden px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-[#1b3628] font-bold text-xs flex items-center gap-1 shadow transition active:scale-95">
+                                    <span>🔊</span>
+                                    <span>Ouvir</span>
+                                </button>
+                            </div>
+
+                            <div id="witness-dialogue" class="text-sm sm:text-base leading-relaxed text-emerald-50 flex-1 font-medium">
+                                Escolha um dos pontos de interesse desta cidade para interrogar testemunhas e ouvir as pistas deixadas pelo suspeito.
+                            </div>
+
+                            <div id="clue-saved-banner" class="hidden mt-3 pt-2 border-t border-[#3a634d] flex items-center justify-between text-xs text-amber-300">
+                                <span>✅ Pista registrada no Caderno de Notas!</span>
+                                <button onclick="switchTab('notebook')" class="underline font-bold hover:text-white">Ver Notas →</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ABA 2: VIAJAR / AEROPORTO DA AGÊNCIA -->
+                    <div id="panel-travel" class="hidden flex-1 flex flex-col">
+                        <div class="flex items-center justify-between border-b-2 border-[#e6d5b8] pb-3 mb-4">
+                            <div>
+                                <h3 class="text-xl font-bold text-[#1b3628]">✈️ Conexões Aéreas da Agência</h3>
+                                <p class="text-xs text-slate-600">Analise as pistas antes de voar! Voos errados custam tempo precioso.</p>
+                            </div>
+                            <span class="bg-sky-100 text-sky-900 border border-sky-300 text-xs font-bold px-2.5 py-1 rounded-lg">
+                                4 Destinos Disponíveis
+                            </span>
+                        </div>
+
+                        <div id="travel-options-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3 flex-1">
+                            <!-- Gerado via JS -->
+                        </div>
+                    </div>
+
+                    <!-- ABA 3: COMPUTADOR DA AGÊNCIA (EMISSÃO DE MANDADO) -->
+                    <div id="panel-computer" class="hidden flex-1 flex flex-col">
+                        <div class="flex items-center justify-between border-b-2 border-[#e6d5b8] pb-3 mb-3">
+                            <div>
+                                <h3 class="text-xl font-bold text-[#1b3628]">💻 Terminal de Identificação & Mandado</h3>
+                                <p class="text-xs text-slate-600">Filtre as características coletadas para emitir o mandado oficial (custa <strong>2h</strong>).</p>
+                            </div>
+                            <button onclick="resetFilters()" class="text-xs font-bold text-[#5c3a21] bg-[#e6d5b8] hover:bg-[#d8c19c] px-3 py-1.5 rounded-lg transition">
+                                Limpar Filtros
+                            </button>
+                        </div>
+
+                        <!-- Filtros de Características (6 atributos) -->
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-3">
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase text-[#5c3a21] mb-0.5">Cabelo</label>
+                                <select id="filter-hair" onchange="filterSuspects()" class="w-full bg-white border border-[#c5ab82] rounded-xl px-2 py-1.5 text-xs font-semibold text-slate-800">
+                                    <option value="">Qualquer</option>
+                                    <option value="Ruivo">Ruivo</option>
+                                    <option value="Preto">Preto</option>
+                                    <option value="Loiro">Loiro</option>
+                                    <option value="Grisalho">Grisalho</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase text-[#5c3a21] mb-0.5">Olhos</label>
+                                <select id="filter-eyes" onchange="filterSuspects()" class="w-full bg-white border border-[#c5ab82] rounded-xl px-2 py-1.5 text-xs font-semibold text-slate-800">
+                                    <option value="">Qualquer</option>
+                                    <option value="Verdes">Verdes</option>
+                                    <option value="Castanhos">Castanhos</option>
+                                    <option value="Azuis">Azuis</option>
+                                    <option value="Dourados">Dourados</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase text-[#5c3a21] mb-0.5">Acessório</label>
+                                <select id="filter-accessory" onchange="filterSuspects()" class="w-full bg-white border border-[#c5ab82] rounded-xl px-2 py-1.5 text-xs font-semibold text-slate-800">
+                                    <option value="">Qualquer</option>
+                                    <option value="Monóculo Dourado">Monóculo Dourado</option>
+                                    <option value="Chapéu de Plumas">Chapéu de Plumas</option>
+                                    <option value="Lenço de Seda">Lenço de Seda</option>
+                                    <option value="Óculos Escuros">Óculos Escuros</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase text-[#5c3a21] mb-0.5">Veículo</label>
+                                <select id="filter-vehicle" onchange="filterSuspects()" class="w-full bg-white border border-[#c5ab82] rounded-xl px-2 py-1.5 text-xs font-semibold text-slate-800">
+                                    <option value="">Qualquer</option>
+                                    <option value="Dirigível">Dirigível</option>
+                                    <option value="Jipe Safári">Jipe Safári</option>
+                                    <option value="Submarino">Submarino</option>
+                                    <option value="Moto Esportiva">Moto Esportiva</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase text-[#5c3a21] mb-0.5">Hobby</label>
+                                <select id="filter-hobby" onchange="filterSuspects()" class="w-full bg-white border border-[#c5ab82] rounded-xl px-2 py-1.5 text-xs font-semibold text-slate-800">
+                                    <option value="">Qualquer</option>
+                                    <option value="Coleciona Selos">Coleciona Selos</option>
+                                    <option value="Treina Falcões">Treina Falcões</option>
+                                    <option value="Toca Saxofone">Toca Saxofone</option>
+                                    <option value="Observa Estrelas">Observa Estrelas</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold uppercase text-[#5c3a21] mb-0.5">Lanche Favorito</label>
+                                <select id="filter-snack" onchange="filterSuspects()" class="w-full bg-white border border-[#c5ab82] rounded-xl px-2 py-1.5 text-xs font-semibold text-slate-800">
+                                    <option value="">Qualquer</option>
+                                    <option value="Biscoito de Mel">Biscoito de Mel</option>
+                                    <option value="Suco de Manga">Suco de Manga</option>
+                                    <option value="Pão de Queijo">Pão de Queijo</option>
+                                    <option value="Chocolate Amargo">Chocolate Amargo</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Lista de Suspeitos Compatíveis -->
+                        <div class="flex-1 bg-[#1b3628] rounded-2xl p-3 border border-[#5c3a21] overflow-y-auto max-h-[210px]">
+                            <div class="flex justify-between items-center text-xs text-emerald-300 font-bold mb-2 px-1">
+                                <span>SUSPEITOS COMPATÍVEIS NO BANCO DE DADOS:</span>
+                                <span id="suspects-match-count">12 encontrados</span>
+                            </div>
+                            <div id="suspects-list" class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                <!-- Gerado via JS -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ABA 4: CADERNO DE PISTAS DO DUDU -->
+                    <div id="panel-notebook" class="hidden flex-1 flex flex-col">
+                        <div class="flex items-center justify-between border-b-2 border-[#e6d5b8] pb-3 mb-3">
+                            <div>
+                                <h3 class="text-xl font-bold text-[#1b3628]">📓 Caderno de Campo do Dudu</h3>
+                                <p class="text-xs text-slate-600">Clique no botão de som em qualquer anotação para ouvi-la novamente.</p>
+                            </div>
+                            <span class="text-xs font-bold text-[#5c3a21] bg-[#e6d5b8] px-3 py-1 rounded-full">
+                                Histórico da Missão
+                            </span>
+                        </div>
+
+                        <div id="notebook-entries" class="dossier-paper flex-1 border border-[#c5ab82] rounded-2xl p-4 overflow-y-auto max-h-[290px] space-y-2.5">
+                            <p class="text-sm text-slate-500 italic text-center py-8">
+                                Nenhuma pista anotada ainda. Comece investigando os locais da cidade atual!
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- MODAL DE BRIEFING INICIAL DA MISSÃO (COM LEITURA DE VOZ AUTOMÁTICA) -->
+    <div id="modal-briefing" class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-[#fcf8ef] border-4 border-[#5c3a21] rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl">
+            <div class="leopard-trim h-3 w-full"></div>
+            <div class="p-6">
+                <div class="flex items-center justify-between gap-3 mb-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-16 h-16 rounded-2xl bg-amber-100 border-2 border-[#5c3a21] overflow-hidden flex-shrink-0 flex items-center justify-center dudu-idle">
+                            <img src="AVATAR_2.png" alt="Detetive Dudu" class="w-full h-full object-cover object-top"
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <span class="hidden text-3xl">🐾</span>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-1.5">
+                                <span id="briefing-rank-badge" class="bg-rose-600 text-white text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider">Alerta Urgente</span>
+                            </div>
+                            <h3 id="briefing-title" class="text-xl sm:text-2xl font-bold text-[#1b3628] mt-1">Título do Caso</h3>
+                        </div>
+                    </div>
+                    <button onclick="replayBriefingVoice()" title="Ouvir Caso Novamente"
+                            class="p-2.5 rounded-xl bg-amber-200 hover:bg-amber-300 text-[#1b3628] border border-[#5c3a21] font-bold text-sm shadow transition active:scale-95">
+                        🔊
+                    </button>
+                </div>
+
+                <div class="bg-[#f6eedc] border border-[#c5ab82] rounded-2xl p-4 text-sm text-slate-800 space-y-2 mb-5 leading-relaxed">
+                    <div class="text-xs font-extrabold uppercase tracking-wider text-amber-900 bg-amber-200/70 px-2.5 py-1 rounded-lg inline-block">
+                        🏆 Tesouro Subtraído: <span id="briefing-artifact"></span>
+                    </div>
+                    <p id="briefing-story" class="pt-1"></p>
+                    <div class="pt-2 border-t border-[#c5ab82] flex flex-wrap justify-between gap-2 text-xs font-bold text-[#5c3a21]">
+                        <span>📍 Partida: <span id="briefing-start-city"></span></span>
+                        <span>🗺️ Rota: <span id="briefing-stops"></span> cidades</span>
+                        <span>⏰ Limite: <span id="briefing-hours"></span>h</span>
+                    </div>
+                </div>
+
+                <button onclick="closeBriefing()" class="w-full py-3.5 rounded-2xl bg-[#1b3628] hover:bg-[#274c39] text-amber-300 font-display font-bold text-lg shadow-lg transition active:scale-95">
+                    🐾 Aceitar Missão & Iniciar Busca!
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DE ANIMAÇÃO DE VOO COM AVATAR DO DUDU NO MAPA -->
+    <div id="modal-flight" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-[#1b3628] border-2 border-amber-400 rounded-3xl max-w-md w-full p-6 text-center text-white shadow-2xl">
+            <div class="text-xs font-bold uppercase tracking-widest text-amber-300 mb-2">Expresso Aéreo Pata & Lupa</div>
+            <h3 id="flight-dest-title" class="text-2xl font-bold mb-4">Voando para Paris...</h3>
+            
+            <!-- Mapa Estilizado com Linha Tracejada Vermelha e Avatar do Dudu -->
+            <div class="relative h-28 bg-[#12241b] rounded-2xl border border-[#3a634d] overflow-hidden flex items-center justify-between px-5 mb-4">
+                <div class="absolute inset-0 opacity-20 flex items-center justify-center text-7xl pointer-events-none">🗺️</div>
+                <div class="relative z-10 flex flex-col items-center">
+                    <span id="flight-origin-flag" class="text-2xl">🛫</span>
+                    <span id="flight-origin-name" class="text-[10px] text-emerald-200 font-bold mt-1">Origem</span>
+                </div>
+
+                <div class="flex-1 border-b-2 border-dashed border-rose-500 mx-3 relative">
+                    <div id="flying-plane-icon" class="absolute -top-7 left-0 flex items-center gap-1 bg-amber-400 text-[#1b3628] px-2 py-0.5 rounded-full border-2 border-white shadow-lg">
+                        <img src="AVATAR_2.png" alt="Dudu" class="w-6 h-6 rounded-full object-cover object-top" onerror="this.style.display='none'">
+                        <span class="text-base">🛩️</span>
+                    </div>
+                </div>
+
+                <div class="relative z-10 flex flex-col items-center">
+                    <span id="flight-dest-flag" class="text-2xl">🛬</span>
+                    <span id="flight-dest-name" class="text-[10px] text-amber-300 font-bold mt-1">Destino</span>
+                </div>
+            </div>
+
+            <p id="flight-duration-text" class="text-sm text-emerald-200 font-medium">Tempo de viagem: +5 horas</p>
+        </div>
+    </div>
+
+    <!-- MODAL DE DESFECHO (VITÓRIA / DERROTA / CONFRONTO FINAL) -->
+    <div id="modal-ending" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-[#fcf8ef] border-4 border-[#5c3a21] rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl text-center">
+            <div id="ending-header-bar" class="h-3 w-full bg-emerald-500"></div>
+            <div class="p-6 sm:p-8">
+                <div id="ending-badge" class="inline-block px-4 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider mb-3">
+                    CASO ENCERRADO
+                </div>
+
+                <div id="ending-avatar-box" class="w-24 h-24 mx-auto rounded-full bg-amber-100 border-4 border-[#5c3a21] overflow-hidden mb-4 flex items-center justify-center shadow-lg">
+                    <img src="AVATAR_2.png" alt="Detetive Dudu" class="w-full h-full object-cover object-top"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <span id="ending-fallback-emoji" class="hidden text-4xl">🏆</span>
+                </div>
+
+                <h3 id="ending-title" class="text-2xl sm:text-3xl font-bold text-[#1b3628] mb-2">Vilão Capturado!</h3>
+                <p id="ending-message" class="text-sm sm:text-base text-slate-700 leading-relaxed mb-5"></p>
+
+                <div id="ending-stats" class="bg-[#f6eedc] border border-[#c5ab82] rounded-2xl p-3 mb-5 text-xs font-semibold text-[#5c3a21] flex justify-around">
+                    <!-- Stats dinâmicos -->
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-2">
+                    <button onclick="returnToMenu()" class="flex-1 py-3.5 rounded-2xl bg-[#e6d5b8] hover:bg-[#d8c19c] text-[#1b3628] font-display font-bold text-base shadow transition active:scale-95">
+                        📂 Lista de 30 Casos
+                    </button>
+                    <button onclick="startNextUnsolvedCase()" class="flex-1 py-3.5 rounded-2xl bg-amber-500 hover:bg-amber-400 text-[#1b3628] font-display font-bold text-base shadow-lg transition active:scale-95">
+                        🚀 Próxima Missão
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NOTIFICAÇÃO FLUTUANTE (TOAST) -->
+    <div id="toast-box" class="hidden fixed bottom-5 left-1/2 -translate-x-1/2 z-50 bg-[#1b3628] text-amber-200 border-2 border-amber-400 px-5 py-3 rounded-2xl shadow-2xl text-sm font-bold flex items-center gap-2 transition-all">
+        <span id="toast-icon">🐾</span>
+        <span id="toast-text">Mensagem</span>
+    </div>
+
+    <script>
+        /* ==========================================================================
+           1. MOTOR DE ÁUDIO SINTETIZADO + NARRAÇÃO POR VOZ (WEB SPEECH API pt-BR)
+           ========================================================================== */
+        const SoundFX = {
+            enabled: true,
+            voiceEnabled: true,
+            ctx: null,
+            init() {
+                if (!this.ctx) {
+                    const AudioContext = window.AudioContext || window.webkitAudioContext;
+                    if (AudioContext) this.ctx = new AudioContext();
+                }
+            },
+            playTone(freq, type, duration, vol = 0.1) {
+                if (!this.enabled) return;
+                this.init();
+                if (!this.ctx) return;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                gain.gain.setValueAtTime(vol, this.ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start();
+                osc.stop(this.ctx.currentTime + duration);
+            },
+            click() { this.playTone(520, 'sine', 0.08, 0.08); },
+            typeTick() { this.playTone(750 + Math.random() * 200, 'triangle', 0.03, 0.025); },
+            stamp() {
+                this.playTone(140, 'square', 0.15, 0.15);
+                setTimeout(() => this.playTone(90, 'sawtooth', 0.2, 0.15), 60);
+            },
+            plane() {
+                if (!this.enabled) return;
+                this.init();
+                if (!this.ctx) return;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(120, this.ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(380, this.ctx.currentTime + 1.2);
+                gain.gain.setValueAtTime(0.06, this.ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 1.4);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start();
+                osc.stop(this.ctx.currentTime + 1.4);
+            },
+            win() {
+                const notes = [523.25, 659.25, 783.99, 1046.50];
+                notes.forEach((n, i) => setTimeout(() => this.playTone(n, 'triangle', 0.25, 0.12), i * 120));
+            },
+            lose() {
+                const notes = [392.00, 349.23, 311.13, 261.63];
+                notes.forEach((n, i) => setTimeout(() => this.playTone(n, 'sawtooth', 0.3, 0.1), i * 180));
+            },
+            stopSpeech() {
+                if ('speechSynthesis' in window) {
+                    window.speechSynthesis.cancel();
+                }
+                const wave = document.getElementById('voice-wave-indicator');
+                if (wave) {
+                    wave.classList.add('hidden');
+                    wave.classList.remove('flex');
+                }
+            },
+            speak(text) {
+                this.stopSpeech();
+                if (!this.voiceEnabled || !('speechSynthesis' in window) || !text) return;
+
+                const cleanText = text.replace(/["“”]/g, '');
+                const utterance = new SpeechSynthesisUtterance(cleanText);
+                utterance.lang = 'pt-BR';
+                utterance.rate = 1.03;
+                utterance.pitch = 1.08;
+
+                // Tenta selecionar uma voz em português do Brasil
+                const voices = window.speechSynthesis.getVoices();
+                const ptVoice = voices.find(v => v.lang.includes('pt-BR') || v.lang.includes('pt_BR')) || voices.find(v => v.lang.startsWith('pt'));
+                if (ptVoice) utterance.voice = ptVoice;
+
+                utterance.onstart = () => {
+                    const wave = document.getElementById('voice-wave-indicator');
+                    if (wave) {
+                        wave.classList.remove('hidden');
+                        wave.classList.add('flex');
+                    }
+                };
+                utterance.onend = () => {
+                    const wave = document.getElementById('voice-wave-indicator');
+                    if (wave) {
+                        wave.classList.add('hidden');
+                        wave.classList.remove('flex');
+                    }
+                };
+                utterance.onerror = () => {
+                    const wave = document.getElementById('voice-wave-indicator');
+                    if (wave) {
+                        wave.classList.add('hidden');
+                        wave.classList.remove('flex');
+                    }
+                };
+
+                window.speechSynthesis.speak(utterance);
+            }
+        };
+
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+        }
+
+        function toggleSound() {
+            SoundFX.enabled = !SoundFX.enabled;
+            document.getElementById('btn-sound').textContent = SoundFX.enabled ? '🔊' : '🔇';
+            if (SoundFX.enabled) SoundFX.click();
+        }
+
+        function toggleVoice() {
+            SoundFX.voiceEnabled = !SoundFX.voiceEnabled;
+            const btn = document.getElementById('btn-voice');
+            if (SoundFX.voiceEnabled) {
+                btn.innerHTML = '<span>🗣️</span><span class="hidden md:inline">Voz ON</span>';
+                btn.classList.remove('opacity-60');
+                SoundFX.click();
+            } else {
+                SoundFX.stopSpeech();
+                btn.innerHTML = '<span>🔇</span><span class="hidden md:inline">Voz OFF</span>';
+                btn.classList.add('opacity-60');
+            }
+        }
+
+        function animateDuduMascot(type = 'jump') {
+            const box = document.getElementById('dudu-mascot-box');
+            if (!box) return;
+            box.classList.remove('dudu-idle', 'dudu-jump', 'dudu-celebrate');
+            void box.offsetWidth;
+            if (type === 'jump') {
+                box.classList.add('dudu-jump');
+                setTimeout(() => {
+                    box.classList.remove('dudu-jump');
+                    box.classList.add('dudu-idle');
+                }, 800);
+            } else if (type === 'celebrate') {
+                box.classList.add('dudu-celebrate');
+            }
+        }
+
+        /* ==========================================================================
+           2. BANCO DE DADOS EXPANDIDO: 12 VILÕES, 24 CIDADES E 30 CASOS ÚNICOS
+           ========================================================================== */
+        const VILLAINS = [
+            { id: 'camaleao', name: 'Barão Camaleão', emoji: '🦎', hair: 'Ruivo', eyes: 'Verdes', accessory: 'Monóculo Dourado', vehicle: 'Dirigível', hobby: 'Coleciona Selos', snack: 'Biscoito de Mel' },
+            { id: 'arara', name: 'Condessa Arara', emoji: '🦜', hair: 'Preto', eyes: 'Castanhos', accessory: 'Chapéu de Plumas', vehicle: 'Jipe Safári', hobby: 'Toca Saxofone', snack: 'Suco de Manga' },
+            { id: 'tamandua', name: 'Capitão Tamanduá', emoji: '🦡', hair: 'Grisalho', eyes: 'Azuis', accessory: 'Óculos Escuros', vehicle: 'Submarino', hobby: 'Observa Estrelas', snack: 'Pão de Queijo' },
+            { id: 'cascavel', name: 'Doutora Cascavel', emoji: '🐍', hair: 'Loiro', eyes: 'Dourados', accessory: 'Lenço de Seda', vehicle: 'Moto Esportiva', hobby: 'Treina Falcões', snack: 'Chocolate Amargo' },
+            { id: 'falcao', name: 'Mestre Falcão', emoji: '🦅', hair: 'Preto', eyes: 'Dourados', accessory: 'Óculos Escuros', vehicle: 'Dirigível', hobby: 'Treina Falcões', snack: 'Biscoito de Mel' },
+            { id: 'pantera', name: 'Lady Pantera', emoji: '🐆', hair: 'Ruivo', eyes: 'Verdes', accessory: 'Lenço de Seda', vehicle: 'Jipe Safári', hobby: 'Observa Estrelas', snack: 'Chocolate Amargo' },
+            { id: 'tucano', name: 'Professor Tucano', emoji: '🦤', hair: 'Grisalho', eyes: 'Castanhos', accessory: 'Monóculo Dourado', vehicle: 'Submarino', hobby: 'Coleciona Selos', snack: 'Suco de Manga' },
+            { id: 'sombra', name: 'Sombra do Cerrado', emoji: '🦊', hair: 'Loiro', eyes: 'Azuis', accessory: 'Chapéu de Plumas', vehicle: 'Moto Esportiva', hobby: 'Toca Saxofone', snack: 'Pão de Queijo' },
+            { id: 'coruja', name: 'Duquesa Coruja', emoji: '🦉', hair: 'Grisalho', eyes: 'Dourados', accessory: 'Monóculo Dourado', vehicle: 'Dirigível', hobby: 'Observa Estrelas', snack: 'Chocolate Amargo' },
+            { id: 'jacare', name: 'Comandante Jacaré', emoji: '🐊', hair: 'Preto', eyes: 'Verdes', accessory: 'Chapéu de Plumas', vehicle: 'Submarino', hobby: 'Coleciona Selos', snack: 'Pão de Queijo' },
+            { id: 'flamingo', name: 'Madame Flamingo', emoji: '🦩', hair: 'Loiro', eyes: 'Castanhos', accessory: 'Lenço de Seda', vehicle: 'Jipe Safári', hobby: 'Toca Saxofone', snack: 'Suco de Manga' },
+            { id: 'lobo', name: 'Lobo das Neves', emoji: '🐺', hair: 'Ruivo', eyes: 'Azuis', accessory: 'Óculos Escuros', vehicle: 'Moto Esportiva', hobby: 'Treina Falcões', snack: 'Biscoito de Mel' }
+        ];
+
+        const CITIES = {
+            rio: {
+                id: 'rio', name: 'Rio de Janeiro', country: 'Brasil', region: 'América do Sul', flag: '🇧🇷', landmarkEmoji: '🗿', monument: 'Cristo Redentor', currency: 'Real (R$)',
+                bgGradient: 'from-emerald-700 via-teal-800 to-sky-900',
+                description: 'Cidade maravilhosa entre montanhas verdes e o mar azul, lar do Cristo Redentor, Pão de Açúcar e florestas tropicais urbanas.',
+                clues: [
+                    'Perguntou quanto custava um passeio de bondinho até o Pão de Açúcar e trocou dinheiro por Reais.',
+                    'Comentou que queria visitar uma cidade famosa pelo Cristo Redentor e pelas praias de Copacabana.',
+                    'Estava lendo um guia turístico sobre a Floresta da Tijuca e o Carnaval carioca.'
+                ],
+                locations: [
+                    { name: 'Museu Nacional', icon: '🏛️', role: 'Curadora', witness: 'Dra. Helena' },
+                    { name: 'Porto Maravilha', icon: '⚓', role: 'Capitão do Cais', witness: 'Sr. Bento' },
+                    { name: 'Jardim Botânico', icon: '🌴', role: 'Botânico', witness: 'Prof. Caio' }
+                ]
+            },
+            paris: {
+                id: 'paris', name: 'Paris', country: 'França', region: 'Europa Ocidental', flag: '🇫🇷', landmarkEmoji: '🗼', monument: 'Torre Eiffel', currency: 'Euro (€)',
+                bgGradient: 'from-indigo-800 via-blue-900 to-slate-900',
+                description: 'A Cidade Luz às margens do Rio Sena, célebre pela Torre Eiffel, pelo Museu do Louvre e por suas confeitarias históricas.',
+                clues: [
+                    'Pegou um mapa do metrô procurando a estação mais próxima da Torre Eiffel.',
+                    'Pagou a conta em Euros e pediu recomendações de croissants perto do Rio Sena.',
+                    'Queria visitar o Museu do Louvre para admirar pinturas renascentistas.'
+                ],
+                locations: [
+                    { name: 'Museu do Louvre', icon: '🖼️', role: 'Restauradora', witness: 'Madame Sophie' },
+                    { name: 'Café do Sena', icon: '🥐', role: 'Padeiro', witness: 'Chef Pierre' },
+                    { name: 'Torre de Rádio', icon: '📡', role: 'Operador', witness: 'Luc' }
+                ]
+            },
+            toquio: {
+                id: 'toquio', name: 'Tóquio', country: 'Japão', region: 'Ásia Oriental', flag: '🇯🇵', landmarkEmoji: '⛩️', monument: 'Monte Fuji', currency: 'Iene (¥)',
+                bgGradient: 'from-rose-800 via-pink-900 to-slate-950',
+                description: 'Megalópole onde templos antigos convivem com trens-bala futuristas, letreiros neon e a vista majestosa do Monte Fuji.',
+                clues: [
+                    'Trocou moedas por Ienes e comprou uma passagem para o trem-bala Shinkansen.',
+                    'Perguntou se o céu estaria limpo para avistar o Monte Fuji no horizonte.',
+                    'Visitou um templo tradicional com portão Torii vermelho antes de partir.'
+                ],
+                locations: [
+                    { name: 'Templo Asakusa', icon: '🏯', role: 'Guardião', witness: 'Mestre Kenji' },
+                    { name: 'Distrito Eletrônico', icon: '🤖', role: 'Engenheira', witness: 'Yuki' },
+                    { name: 'Estação Central', icon: '🚄', role: 'Chefe de Trem', witness: 'Sr. Sato' }
+                ]
+            },
+            cairo: {
+                id: 'cairo', name: 'Cairo', country: 'Egito', region: 'Norte da África', flag: '🇪🇬', landmarkEmoji: '🔺', monument: 'Pirâmides de Gizé', currency: 'Libra Egípcia (EGP)',
+                bgGradient: 'from-amber-700 via-orange-800 to-yellow-950',
+                description: 'Metrópole milenar às margens do Rio Nilo, guardiã das Grandes Pirâmides de Gizé e dos enigmas da Grande Esfinge.',
+                clues: [
+                    'Trocou notas por Libras Egípcias e perguntou a distância até a Grande Esfinge.',
+                    'Disse que sonhava em navegar pelo Rio Nilo ao pôr do sol para ver as pirâmides.',
+                    'Estudava hieróglifos antigos e mapas do deserto do Saara.'
+                ],
+                locations: [
+                    { name: 'Museu Egípcio', icon: '🏺', role: 'Arqueólogo', witness: 'Dr. Tariq' },
+                    { name: 'Bazar Khan el-Khalili', icon: '🐪', role: 'Mercador', witness: 'Rashid' },
+                    { name: 'Observatório do Nilo', icon: '🔭', role: 'Astrônoma', witness: 'Amira' }
+                ]
+            },
+            londres: {
+                id: 'londres', name: 'Londres', country: 'Reino Unido', region: 'Europa', flag: '🇬🇧', landmarkEmoji: '🕰️', monument: 'Big Ben', currency: 'Libra Esterlina (£)',
+                bgGradient: 'from-slate-800 via-red-950 to-zinc-900',
+                description: 'Capital britânica cortada pelo Rio Tâmisa, famosa pelos ônibus vermelhos de dois andares, pelo Big Ben e pela Torre de Londres.',
+                clues: [
+                    'Trocou dinheiro por Libras Esterlinas e perguntou as horas exatas do relógio Big Ben.',
+                    'Embarcou em um ônibus vermelho de dois andares em direção ao Rio Tâmisa.',
+                    'Queria ver as joias da coroa guardadas na histórica Torre de Londres.'
+                ],
+                locations: [
+                    { name: 'Museu Britânico', icon: '🏛️', role: 'Historiador', witness: 'Sir Arthur' },
+                    { name: 'Estação King’s Cross', icon: '🚂', role: 'Maquinista', witness: 'Oliver' },
+                    { name: 'Observatório Greenwich', icon: '🌐', role: 'Cartógrafa', witness: 'Clara' }
+                ]
+            },
+            novayork: {
+                id: 'novayork', name: 'Nova York', country: 'Estados Unidos', region: 'América do Norte', flag: '🇺🇸', landmarkEmoji: '🗽', monument: 'Estátua da Liberdade', currency: 'Dólar Americano (US$)',
+                bgGradient: 'from-blue-900 via-slate-800 to-cyan-950',
+                description: 'A metrópole dos arranha-céus iluminados, lar da Estátua da Liberdade, do Central Park e dos teatros da Broadway.',
+                clues: [
+                    'Pegou uma balsa para fotografar a tocha da Estátua da Liberdade.',
+                    'Pagou um táxi amarelo em Dólares Americanos rumo ao Central Park.',
+                    'Queria subir até o topo do Empire State Building para ver Manhattan.'
+                ],
+                locations: [
+                    { name: 'Museu de História Natural', icon: '🦕', role: 'Paleontóloga', witness: 'Dra. Maya' },
+                    { name: 'Estação Grand Central', icon: '🚆', role: 'Despachante', witness: 'Frank' },
+                    { name: 'Mirante Central Park', icon: '🌳', role: 'Guarda', witness: 'Officer Sam' }
+                ]
+            },
+            roma: {
+                id: 'roma', name: 'Roma', country: 'Itália', region: 'Europa Mediterrânea', flag: '🇮🇹', landmarkEmoji: '🏟️', monument: 'Coliseu', currency: 'Euro (€)',
+                bgGradient: 'from-orange-800 via-amber-900 to-red-950',
+                description: 'A Cidade Eterna, repleta de ruínas do Império Romano, o majestoso Coliseu, fontes barrocas e cantinas tradicionais.',
+                clues: [
+                    'Jogou uma moeda na Fontana di Trevi e pediu direções para o Coliseu Romano.',
+                    'Saboreou um gelato artesanal enquanto lia sobre os antigos gladiadores.',
+                    'Trocou notas por Euros e visitou o Panteão antigo.'
+                ],
+                locations: [
+                    { name: 'Arena do Coliseu', icon: '🏛️', role: 'Guia Histórico', witness: 'Marco' },
+                    { name: 'Biblioteca Romana', icon: '📜', role: 'Arquivista', witness: 'Giulia' },
+                    { name: 'Praça Navona', icon: '⛲', role: 'Artista', witness: 'Lorenzo' }
+                ]
+            },
+            pequim: {
+                id: 'pequim', name: 'Pequim', country: 'China', region: 'Ásia Oriental', flag: '🇨🇳', landmarkEmoji: '🐉', monument: 'Grande Muralha', currency: 'Yuan Renminbi (¥)',
+                bgGradient: 'from-red-800 via-amber-900 to-stone-950',
+                description: 'Capital milenar da China, portal para a imensa Grande Muralha e lar dos palácios imperiais da Cidade Proibida.',
+                clues: [
+                    'Comprou botas de caminhada para subir os degraus da Grande Muralha da China.',
+                    'Trocou dinheiro por Yuans e visitou os portões vermelhos da Cidade Proibida.',
+                    'Perguntou sobre uma reserva de preservação de pandas gigantes.'
+                ],
+                locations: [
+                    { name: 'Cidade Proibida', icon: '🏯', role: 'Curador', witness: 'Sr. Chen' },
+                    { name: 'Posto da Grande Muralha', icon: '🧱', role: 'Guardião', witness: 'Mei Ling' },
+                    { name: 'Casa de Chá Imperial', icon: '🍵', role: 'Mestre de Chá', witness: 'Mestre Wong' }
+                ]
+            },
+            sydney: {
+                id: 'sydney', name: 'Sydney', country: 'Austrália', region: 'Oceania', flag: '🇦🇺', landmarkEmoji: '🦘', monument: 'Ópera de Sydney', currency: 'Dólar Australiano (AUD)',
+                bgGradient: 'from-cyan-800 via-blue-900 to-indigo-950',
+                description: 'Porto ensolarado da Oceania famoso pelas velas brancas da Ópera de Sydney, cangurus, coalas e a Grande Barreira de Coral.',
+                clues: [
+                    'Queria tirar fotos diante do telhado em formato de velas da famosa Ópera.',
+                    'Trocou notas por Dólares Australianos e perguntou onde ver cangurus e coalas.',
+                    'Comentou sobre mergulhar perto da Grande Barreira de Coral.'
+                ],
+                locations: [
+                    { name: 'Ópera de Sydney', icon: '🎶', role: 'Bilheteira', witness: 'Chloe' },
+                    { name: 'Santuário Koala', icon: '🐨', role: 'Veterinário', witness: 'Liam' },
+                    { name: 'Baía do Porto', icon: '⛵', role: 'Velejador', witness: 'Jack' }
+                ]
+            },
+            cusco: {
+                id: 'cusco', name: 'Cusco', country: 'Peru', region: 'Cordilheira dos Andes', flag: '🇵🇪', landmarkEmoji: '🦙', monument: 'Machu Picchu', currency: 'Sol Peruano (PEN)',
+                bgGradient: 'from-orange-800 via-red-900 to-stone-950',
+                description: 'Antiga capital do Império Inca nas alturas dos Andes, ponto de partida para a cidadela perdida de Machu Picchu.',
+                clues: [
+                    'Comprou um poncho de lã de lhama para enfrentar o frio da Cordilheira dos Andes.',
+                    'Trocou dinheiro por Soles Peruanos e perguntou pelo trem até Machu Picchu.',
+                    'Admirou os muros de pedra encaixados com precisão pelo antigo Império Inca.'
+                ],
+                locations: [
+                    { name: 'Praça das Armas', icon: '☀️', role: 'Historiador', witness: 'Mateo' },
+                    { name: 'Estação Andina', icon: '🚂', role: 'Condutora', witness: 'Valeria' },
+                    { name: 'Mercado de Artesanato', icon: '🧶', role: 'Tecelã', witness: 'Mama Rosa' }
+                ]
+            },
+            nairobi: {
+                id: 'nairobi', name: 'Nairóbi', country: 'Quênia', region: 'África Oriental', flag: '🇰🇪', landmarkEmoji: '🦁', monument: 'Savana Africana', currency: 'Xelim Queniano (KES)',
+                bgGradient: 'from-yellow-700 via-amber-800 to-stone-900',
+                description: 'A capital mundial dos safáris, cercada por savanas douradas repletas de leões, girafas, elefantes e reservas naturais.',
+                clues: [
+                    'Alugou binóculos de longo alcance para observar leões e girafas na savana.',
+                    'Trocou dinheiro por Xelins Quenianos e perguntou sobre reservas ambientais.',
+                    'Mencionou que iria fazer um safári fotográfico ao amanhecer.'
+                ],
+                locations: [
+                    { name: 'Reserva Nacional', icon: '🦓', role: 'Guarda-Florestal', witness: 'Wanjiku' },
+                    { name: 'Centro de Girafas', icon: '🦒', role: 'Biólogo', witness: 'David' },
+                    { name: 'Aeródromo Safári', icon: '🛩️', role: 'Piloto', witness: 'Capitão Juma' }
+                ]
+            },
+            moscou: {
+                id: 'moscou', name: 'Moscou', country: 'Rússia', region: 'Leste Europeu', flag: '🇷🇺', landmarkEmoji: '🏰', monument: 'Catedral de São Basílio', currency: 'Rublo Russo (₽)',
+                bgGradient: 'from-red-900 via-rose-950 to-slate-900',
+                description: 'Capital histórica famosa pelas cúpulas coloridas da Catedral de São Basílio na Praça Vermelha e pelas estações de metrô que parecem palácios.',
+                clues: [
+                    'Comprou um casaco de inverno pesado e trocou dinheiro por Rublos.',
+                    'Queria fotografar as cúpulas coloridas em espiral na Praça Vermelha.',
+                    'Comprou bonecas russas Matryoshka como lembrança antes de embarcar.'
+                ],
+                locations: [
+                    { name: 'Praça Vermelha', icon: '🏛️', role: 'Guia Local', witness: 'Anya' },
+                    { name: 'Teatro Bolshoi', icon: '🎭', role: 'Bailarino', witness: 'Dmitri' },
+                    { name: 'Museu Espacial', icon: '🚀', role: 'Engenheiro', witness: 'Ivan' }
+                ]
+            },
+            atenas: {
+                id: 'atenas', name: 'Atenas', country: 'Grécia', region: 'Sudeste Europeu', flag: '🇬🇷', landmarkEmoji: '🏛️', monument: 'Partenon da Acrópole', currency: 'Euro (€)',
+                bgGradient: 'from-sky-700 via-blue-800 to-indigo-950',
+                description: 'Berço da democracia e da filosofia clássica, dominada pelas colunas de mármore branco do Partenon no topo da Acrópole.',
+                clues: [
+                    'Subiu a colina da Acrópole para ver as colunas antigas do Partenon.',
+                    'Lia um livro sobre mitologia grega e filósofos antigos.',
+                    'Pagou em Euros por azeitonas e mel grego no bairro histórico de Plaka.'
+                ],
+                locations: [
+                    { name: 'Acrópole', icon: '🏛️', role: 'Arqueóloga', witness: 'Elena' },
+                    { name: 'Porto de Pireu', icon: '⛴️', role: 'Marinheiro', witness: 'Nikos' },
+                    { name: 'Ágora Antiga', icon: '📜', role: 'Professor', witness: 'Socrates Jr.' }
+                ]
+            },
+            mexico: {
+                id: 'mexico', name: 'Cidade do México', country: 'México', region: 'América do Norte', flag: '🇲🇽', landmarkEmoji: '🌵', monument: 'Pirâmides de Teotihuacán', currency: 'Peso Mexicano (MXN)',
+                bgGradient: 'from-emerald-800 via-teal-900 to-amber-950',
+                description: 'Vibrante capital construída sobre a antiga Tenochtitlán asteca, cercada por pirâmides milenares, museus e música mariachi.',
+                clues: [
+                    'Trocou notas por Pesos Mexicanos e perguntou pelo ônibus até a Pirâmide do Sol.',
+                    'Visitou o Museu Nacional de Antropologia para ver a Pedra do Sol asteca.',
+                    'Comprou um sombrero colorido e ouviu músicos mariachis na praça.'
+                ],
+                locations: [
+                    { name: 'Museu de Antropologia', icon: '🗿', role: 'Curador', witness: 'Carlos' },
+                    { name: 'Praça Zócalo', icon: '🎺', role: 'Músico', witness: 'Diego' },
+                    { name: 'Canais de Xochimilco', icon: '🛶', role: 'Barqueiro', witness: 'Lupita' }
+                ]
+            },
+            istambul: {
+                id: 'istambul', name: 'Istambul', country: 'Turquia', region: 'Eurásia', flag: '🇹🇷', landmarkEmoji: '🕌', monument: 'Mesquita Azul', currency: 'Lira Turca (₺)',
+                bgGradient: 'from-amber-800 via-red-900 to-indigo-950',
+                description: 'A única metrópole do mundo situada entre dois continentes (Europa e Ásia), separada pelo Estreito de Bósforo.',
+                clues: [
+                    'Atravessou de balsa o Estreito de Bósforo indo da Europa para a Ásia.',
+                    'Trocou dinheiro por Liras Turcas e comprou especiarias no Grande Bazar.',
+                    'Admirou os minaretes e cúpulas da histórica Hagia Sophia.'
+                ],
+                locations: [
+                    { name: 'Grande Bazar', icon: '🏮', role: 'Comerciante', witness: 'Mehmet' },
+                    { name: 'Estreito de Bósforo', icon: '🚢', role: 'Capitão', witness: 'Emre' },
+                    { name: 'Palácio Topkapi', icon: '👑', role: 'Guardiã', witness: 'Zeynep' }
+                ]
+            },
+            bangkok: {
+                id: 'bangkok', name: 'Bangkok', country: 'Tailândia', region: 'Sudeste Asiático', flag: '🇹🇭', landmarkEmoji: '🛕', monument: 'Grande Palácio Real', currency: 'Baht Tailandês (฿)',
+                bgGradient: 'from-amber-600 via-orange-800 to-rose-950',
+                description: 'Cidade de templos dourados cintilantes, mercados flutuantes coloridos e passeios rápidos de tuk-tuk.',
+                clues: [
+                    'Pegou um tuk-tuk motorizado para visitar os templos dourados à beira do rio.',
+                    'Trocou dinheiro por Bahts e comprou frutas tropicais em um mercado flutuante.',
+                    'Perguntou sobre o Grande Palácio Real e suas estátuas guardiãs.'
+                ],
+                locations: [
+                    { name: 'Grande Palácio', icon: '🛕', role: 'Guia Real', witness: 'Niran' },
+                    { name: 'Mercado Flutuante', icon: '🛶', role: 'Vendedora', witness: 'Mali' },
+                    { name: 'Estação Tuk-Tuk', icon: '🛺', role: 'Motorista', witness: 'Somchai' }
+                ]
+            },
+            buenosaires: {
+                id: 'buenosaires', name: 'Buenos Aires', country: 'Argentina', region: 'América do Sul', flag: '🇦🇷', landmarkEmoji: '💃', monument: 'Obelisco & Caminito', currency: 'Peso Argentino (ARS)',
+                bgGradient: 'from-sky-800 via-blue-900 to-slate-900',
+                description: 'Elegante capital às margens do Rio da Prata, berço do tango, das livrarias históricas e das casas coloridas do Caminito.',
+                clues: [
+                    'Trocou notas por Pesos Argentinos e assistiu a um show de tango na rua.',
+                    'Tirou fotos nas casas supercoloridas do bairro de La Boca.',
+                    'Visitou o famoso Obelisco na Avenida 9 de Julio.'
+                ],
+                locations: [
+                    { name: 'Rua Caminito', icon: '🎨', role: 'Pintor', witness: 'Mateo R.' },
+                    { name: 'Teatro Colón', icon: '🎻', role: 'Maestro', witness: 'Sofia' },
+                    { name: 'Porto Madero', icon: '🌉', role: 'Marinheira', witness: 'Camila' }
+                ]
+            },
+            reykjavik: {
+                id: 'reykjavik', name: 'Reykjavik', country: 'Islândia', region: 'Atlântico Norte', flag: '🇮🇸', landmarkEmoji: '🌌', monument: 'Aurora Boreal & Gêiseres', currency: 'Coroa Islandesa (ISK)',
+                bgGradient: 'from-teal-800 via-emerald-950 to-indigo-950',
+                description: 'A capital mais ao norte do planeta, terra de vulcões, gêiseres de água quente, geleiras cristalinas e da Aurora Boreal.',
+                clues: [
+                    'Levou câmera noturna para fotografar as luzes verdes da Aurora Boreal.',
+                    'Trocou dinheiro por Coroas Islandesas e perguntou sobre os gêiseres termais.',
+                    'Comentou que estava indo para a terra do gelo e do fogo no Atlântico Norte.'
+                ],
+                locations: [
+                    { name: 'Observatório Polar', icon: '🌌', role: 'Cientista', witness: 'Freja' },
+                    { name: 'Parque dos Gêiseres', icon: '♨️', role: 'Geólogo', witness: 'Bjorn' },
+                    { name: 'Porto Ártico', icon: '🐋', role: 'Bióloga', witness: 'Astrid' }
+                ]
+            },
+            novadelhi: {
+                id: 'novadelhi', name: 'Nova Délhi', country: 'Índia', region: 'Sul da Ásia', flag: '🇮🇳', landmarkEmoji: '🕌', monument: 'Taj Mahal (Agra)', currency: 'Rupia Indiana (₹)',
+                bgGradient: 'from-orange-700 via-amber-800 to-emerald-950',
+                description: 'Portal cultural da Índia, repleta de palácios históricos, especiarias aromáticas e próxima ao majestoso Taj Mahal de mármore branco.',
+                clues: [
+                    'Trocou notas por Rupias Indianas e pegou um trem para ver o Taj Mahal de mármore.',
+                    'Comprou açafrão, cardamomo e seda colorida em um mercado tradicional.',
+                    'Passou pelo monumental Portão da Índia ao entardecer.'
+                ],
+                locations: [
+                    { name: 'Portão da Índia', icon: '⛩️', role: 'Guarda', witness: 'Rajesh' },
+                    { name: 'Forte Vermelho', icon: '🏰', role: 'Historiadora', witness: 'Priya' },
+                    { name: 'Bazar das Especiarias', icon: '🌶️', role: 'Mercador', witness: 'Vikram' }
+                ]
+            },
+            marrakech: {
+                id: 'marrakech', name: 'Marrakech', country: 'Marrocos', region: 'Norte da África', flag: '🇲🇦', landmarkEmoji: '🏜️', monument: 'Deserto do Saara & Medina', currency: 'Dirham Marroquino (MAD)',
+                bgGradient: 'from-red-800 via-orange-900 to-amber-950',
+                description: 'A Cidade Vermelha aos pés das montanhas Atlas, famosa por suas muralhas ocre, lanternas artesanais e caravanas rumo ao Saara.',
+                clues: [
+                    'Comprou uma bússola e um turbante para atravessar as dunas do Deserto do Saara.',
+                    'Trocou dinheiro por Dirhams e tomou chá de menta na praça Jemaa el-Fna.',
+                    'Admirou os tapetes tecidos à mão na antiga Medina murada.'
+                ],
+                locations: [
+                    { name: 'Praça Jemaa el-Fna', icon: '🪔', role: 'Contador de Histórias', witness: 'Hassan' },
+                    { name: 'Jardim Majorelle', icon: '🌵', role: 'Jardineira', witness: 'Fatima' },
+                    { name: 'Portão do Saara', icon: '🐪', role: 'Guia de Caravana', witness: 'Youssef' }
+                ]
+            },
+            toronto: {
+                id: 'toronto', name: 'Toronto', country: 'Canadá', region: 'América do Norte', flag: '🇨🇦', landmarkEmoji: '🍁', monument: 'Torre CN & Cataratas', currency: 'Dólar Canadense (CAD)',
+                bgGradient: 'from-red-800 via-slate-800 to-blue-950',
+                description: 'Metrópole multicultural às margens do Lago Ontário, marcada pela altíssima Torre CN e próxima às Cataratas do Niágara.',
+                clues: [
+                    'Subiu no elevador de vidro da Torre CN e comprou xarope de bordo (maple syrup).',
+                    'Trocou notas por Dólares Canadenses e perguntou pela estrada até as Cataratas do Niágara.',
+                    'Usava um broche com a folha vermelha de bordo, símbolo do Canadá.'
+                ],
+                locations: [
+                    { name: 'Mirante Torre CN', icon: '🗼', role: 'Operadora', witness: 'Emily' },
+                    { name: 'Museu Real de Ontário', icon: '💎', role: 'Curador', witness: 'Noah' },
+                    { name: 'Porto do Lago Ontário', icon: '⛴️', role: 'Capitã', witness: 'Sarah' }
+                ]
+            },
+            seul: {
+                id: 'seul', name: 'Seul', country: 'Coreia do Sul', region: 'Ásia Oriental', flag: '🇰🇷', landmarkEmoji: '🏯', monument: 'Palácio Gyeongbokgung', currency: 'Won Sul-Coreano (₩)',
+                bgGradient: 'from-blue-800 via-indigo-900 to-rose-950',
+                description: 'Cidade de alta tecnologia onde palácios da dinastia Joseon repousam ao lado de torres modernas e jardins serenos.',
+                clues: [
+                    'Trocou dinheiro por Wons e visitou o Palácio Gyeongbokgung.',
+                    'Subiu até a Torre N Seoul para prender um cadeado panorâmico.',
+                    'Experimentou culinária coreana tradicional no bairro de Bukchon.'
+                ],
+                locations: [
+                    { name: 'Palácio Gyeongbokgung', icon: '🏯', role: 'Guardião', witness: 'Min-jun' },
+                    { name: 'Torre N Seoul', icon: '📡', role: 'Técnica', witness: 'Ji-woo' },
+                    { name: 'Mercado Gwangjang', icon: '🥟', role: 'Cozinheira', witness: 'Sra. Park' }
+                ]
+            },
+            lisboa: {
+                id: 'lisboa', name: 'Lisboa', country: 'Portugal', region: 'Europa Ibérica', flag: '🇵🇹', landmarkEmoji: '🚃', monument: 'Torre de Belém', currency: 'Euro (€)',
+                bgGradient: 'from-amber-700 via-emerald-900 to-sky-950',
+                description: 'A cidade das sete colinas banhada pelo Rio Tejo, célebre pelos bondinhos amarelos, azulejos históricos, pastéis de nata e a Torre de Belém.',
+                clues: [
+                    'Pegou o famoso bondinho elétrico amarelo nº 28 pelas colinas históricas.',
+                    'Comeu pastéis de nata perto da Torre de Belém às margens do Rio Tejo.',
+                    'Pagou em Euros por um livro sobre os grandes navegadores portugueses.'
+                ],
+                locations: [
+                    { name: 'Torre de Belém', icon: '🏰', role: 'Historiador', witness: 'Tiago' },
+                    { name: 'Estação do Rossio', icon: '🚃', role: 'Motorneiro', witness: 'Sr. António' },
+                    { name: 'Miradouro de Alfama', icon: '🎸', role: 'Fadista', witness: 'Beatriz' }
+                ]
+            },
+            madri: {
+                id: 'madri', name: 'Madri', country: 'Espanha', region: 'Europa Ibérica', flag: '🇪🇸', landmarkEmoji: '👑', monument: 'Museu do Prado & Palácio Real', currency: 'Euro (€)',
+                bgGradient: 'from-red-700 via-amber-800 to-stone-900',
+                description: 'Coração cultural da Espanha, lar do Museu do Prado, do majestoso Palácio Real e do verdejante Parque do Retiro.',
+                clues: [
+                    'Admirou obras-primas da pintura espanhola no famoso Museu do Prado.',
+                    'Passeou de barco a remo no lago do Parque do Retiro.',
+                    'Pagou em Euros por churros com chocolate quente na Puerta del Sol.'
+                ],
+                locations: [
+                    { name: 'Museu do Prado', icon: '🖼️', role: 'Curadora', witness: 'Isabel' },
+                    { name: 'Palácio Real', icon: '👑', role: 'Guarda Real', witness: 'Alejandro' },
+                    { name: 'Parque do Retiro', icon: '🌳', role: 'Botânica', witness: 'Carmen' }
+                ]
+            }
+        };
+
+        // 30 CASOS COMPLETOS E ÚNICOS (ORGANIZADOS EM 4 PATENTES)
+        const CASES = [
+            // --- NOVATO (Casos 1 a 8 | 4 Cidades | 106h) ---
+            { id: 'case01', num: 1, rank: 'Novato', title: 'A Coroa do Jaguar Dourado', artifact: 'Coroa do Jaguar Dourado', icon: '👑', villainId: 'arara', maxHours: 106, route: ['rio', 'cusco', 'nairobi', 'cairo'], story: 'Durante a exposição no Rio de Janeiro, a lendária Coroa do Jaguar Dourado desapareceu deixando apenas uma pegada suspeita! Rastreie o ladrão antes que o prazo acabe.' },
+            { id: 'case02', num: 2, rank: 'Novato', title: 'O Papiro Estelar do Nilo', artifact: 'Papiro Astronômico de Gizé', icon: '🧭', villainId: 'tamandua', maxHours: 106, route: ['cairo', 'atenas', 'roma', 'paris'], story: 'Um papiro milenar que revela mapas estelares foi levado do Museu do Cairo! Siga as pistas pelo Mediterrâneo e intercepte o suspeito.' },
+            { id: 'case03', num: 3, rank: 'Novato', title: 'O Sino de Cristal de Tóquio', artifact: 'Sino Imperial de Cristal', icon: '🔔', villainId: 'camaleao', maxHours: 106, route: ['toquio', 'seul', 'pequim', 'bangkok'], story: 'O delicado Sino de Cristal sumiu do Templo Asakusa em Tóquio! O vilão está viajando pelas grandes capitais da Ásia.' },
+            { id: 'case04', num: 4, rank: 'Novato', title: 'O Relógio Real de Londres', artifact: 'Engrenagem Mestra do Big Ben', icon: '🕰️', villainId: 'coruja', maxHours: 106, route: ['londres', 'lisboa', 'madri', 'roma'], story: 'Alguém removeu a engrenagem dourada que regula os ponteiros do Big Ben em Londres! Recupere a peça antes do grande badalar.' },
+            { id: 'case05', num: 5, rank: 'Novato', title: 'O Diamante da Savana', artifact: 'Diamante Solar de Nairóbi', icon: '💎', villainId: 'pantera', maxHours: 106, route: ['nairobi', 'marrakech', 'cairo', 'istambul'], story: 'O raro Diamante Solar foi subtraído da Reserva Nacional de Nairóbi! A vilã está cruzando o norte da África.' },
+            { id: 'case06', num: 6, rank: 'Novato', title: 'A Bússola dos Navegadores', artifact: 'Astrolábio de Belém', icon: '🧭', villainId: 'tucano', maxHours: 106, route: ['lisboa', 'rio', 'buenosaires', 'cusco'], story: 'O antigo Astrolábio dos Navegadores desapareceu da Torre de Belém em Lisboa! O ladrão atravessou o Oceano Atlântico.' },
+            { id: 'case07', num: 7, rank: 'Novato', title: 'O Troféu da Ópera Azul', artifact: 'Batuta de Safira de Sydney', icon: '🎶', villainId: 'flamingo', maxHours: 106, route: ['sydney', 'toquio', 'novayork', 'toronto'], story: 'A Batuta de Safira usada na abertura da Ópera de Sydney foi roubada! Siga a trilha musical pelo Pacífico.' },
+            { id: 'case08', num: 8, rank: 'Novato', title: 'O Sol de Ouro Asteca', artifact: 'Medalhão Solar de Tenochtitlán', icon: '☀️', villainId: 'sombra', maxHours: 106, route: ['mexico', 'novayork', 'londres', 'paris'], story: 'O Medalhão Solar sumiu do Museu de Antropologia da Cidade do México! Decifre as dicas antes que o suspeito desapareça.' },
+
+            // --- INVESTIGADOR (Casos 9 a 16 | 4 a 5 Cidades | 96h) ---
+            { id: 'case09', num: 9, rank: 'Investigador', title: 'A Lanterna da Aurora Boreal', artifact: 'Prisma Ártico de Reykjavik', icon: '🌌', villainId: 'lobo', maxHours: 96, route: ['reykjavik', 'londres', 'moscou', 'pequim', 'toquio'], story: 'Um prisma raro capaz de projetar auroras boreais foi levado do Observatório de Reykjavik! A perseguição atravessa dois continentes.' },
+            { id: 'case10', num: 10, rank: 'Investigador', title: 'O Rubi do Taj Mahal', artifact: 'Lágrima Rubi de Agra', icon: '❤️', villainId: 'cascavel', maxHours: 96, route: ['novadelhi', 'istambul', 'atenas', 'roma', 'madri'], story: 'O valioso Rubi de Agra desapareceu de Nova Délhi! A suspeita deixou rastros velozes rumo à Europa.' },
+            { id: 'case11', num: 11, rank: 'Investigador', title: 'O Pergaminho da Grande Muralha', artifact: 'Mapa Secreto da Dinastia Ming', icon: '📜', villainId: 'falcao', maxHours: 96, route: ['pequim', 'bangkok', 'novadelhi', 'cairo', 'marrakech'], story: 'Um pergaminho histórico foi roubado da Cidade Proibida em Pequim! O vilão está voando em direção ao deserto.' },
+            { id: 'case12', num: 12, rank: 'Investigador', title: 'A Esmeralda dos Andes', artifact: 'Condor de Esmeralda Inca', icon: '🦅', villainId: 'jacare', maxHours: 96, route: ['cusco', 'mexico', 'toronto', 'reykjavik', 'londres'], story: 'A estatueta do Condor de Esmeralda sumiu de Cusco! Siga o rastro do norte ao círculo polar.' },
+            { id: 'case13', num: 13, rank: 'Investigador', title: 'O Violino do Teatro Colón', artifact: 'Stradivarius de Prata', icon: '🎻', villainId: 'arara', maxHours: 96, route: ['buenosaires', 'rio', 'lisboa', 'paris', 'moscou'], story: 'Um violino histórico de prata desapareceu do Teatro Colón em Buenos Aires! A ladra deixou notas musicais pelo caminho.' },
+            { id: 'case14', num: 14, rank: 'Investigador', title: 'A Máscara de Ouro de Tutancâmon', artifact: 'Escaravelho Real de Lápis-Lazúli', icon: '🪲', villainId: 'camaleao', maxHours: 96, route: ['cairo', 'nairobi', 'sydney', 'seul', 'toquio'], story: 'O Escaravelho Real foi levado do Museu Egípcio! O mestre dos disfarces está cruzando o hemisfério sul.' },
+            { id: 'case15', num: 15, rank: 'Investigador', title: 'A Chave da Estátua da Liberdade', artifact: 'Chave de Bronze da Tocha', icon: '🗽', villainId: 'tamandua', maxHours: 96, route: ['novayork', 'toronto', 'mexico', 'cusco', 'buenosaires'], story: 'A chave cerimonial da Estátua da Liberdade sumiu de Nova York! Percorra as Américas de norte a sul.' },
+            { id: 'case16', num: 16, rank: 'Investigador', title: 'O Tapete Voador de Istambul', artifact: 'Tapeçaria de Fios de Ouro', icon: '🕌', villainId: 'coruja', maxHours: 96, route: ['istambul', 'moscou', 'reykjavik', 'novayork', 'rio'], story: 'Uma tapeçaria centenária tecida com fios de ouro foi levada do Palácio Topkapi em Istambul!' },
+
+            // --- DETETIVE SÊNIOR (Casos 17 a 24 | 5 Cidades | 88h) ---
+            { id: 'case17', num: 17, rank: 'Detetive Sênior', title: 'O Dragão de Jade de Seul', artifact: 'Selo Real de Jade Verde', icon: '🐉', villainId: 'tucano', maxHours: 88, route: ['seul', 'pequim', 'sydney', 'nairobi', 'lisboa'], story: 'O Selo Real de Jade desapareceu do Palácio Gyeongbokgung em Seul! O tempo é curto e a rota é intercontinental.' },
+            { id: 'case18', num: 18, rank: 'Detetive Sênior', title: 'A Coroa de Louros de Atenas', artifact: 'Coroa Olímpica de Ouro Puro', icon: '🌿', villainId: 'flamingo', maxHours: 88, route: ['atenas', 'istambul', 'novadelhi', 'bangkok', 'toquio'], story: 'A Coroa Olímpica antiga foi subtraída da Acrópole de Atenas! Siga a trilha rumo ao Oriente.' },
+            { id: 'case19', num: 19, rank: 'Detetive Sênior', title: 'O Cetro Real de Madri', artifact: 'Cetro de Safiras da Coroa', icon: '👑', villainId: 'sombra', maxHours: 88, route: ['madri', 'marrakech', 'nairobi', 'rio', 'mexico'], story: 'O Cetro de Safiras sumiu do Palácio Real de Madri! O ladrão ágil já atravessou o Estreito de Gibraltar.' },
+            { id: 'case20', num: 20, rank: 'Detetive Sênior', title: 'A Estrela Polar do Canadá', artifact: 'Meteorito Cristalino de Ontário', icon: '☄️', villainId: 'lobo', maxHours: 88, route: ['toronto', 'reykjavik', 'moscou', 'istambul', 'cairo'], story: 'Um meteorito raro desapareceu do Museu Real de Ontário em Toronto! Rastreie o sinal magnético pelo globo.' },
+            { id: 'case21', num: 21, rank: 'Detetive Sênior', title: 'O Elefante Dourado de Bangkok', artifact: 'Estatueta Sagrada de Siam', icon: '🐘', villainId: 'pantera', maxHours: 88, route: ['bangkok', 'novadelhi', 'nairobi', 'cusco', 'novayork'], story: 'A estatueta sagrada sumiu do Grande Palácio de Bangkok! A vilã está saltando entre continentes.' },
+            { id: 'case22', num: 22, rank: 'Detetive Sênior', title: 'O Pintor Misterioso do Louvre', artifact: 'Esboço Secreto de Da Vinci', icon: '🖼️', villainId: 'cascavel', maxHours: 88, route: ['paris', 'roma', 'atenas', 'cairo', 'sydney'], story: 'Um caderno de esboços inédito foi roubado do Museu do Louvre em Paris! Não deixe a vilã escapar.' },
+            { id: 'case23', num: 23, rank: 'Detetive Sênior', title: 'A Bússola do Deserto Vermelho', artifact: 'Astrolábio do Saara', icon: '🏜️', villainId: 'falcao', maxHours: 88, route: ['marrakech', 'lisboa', 'londres', 'toronto', 'toquio'], story: 'O antigo Astrolábio do Saara desapareceu da Medina de Marrakech! O vilão alçou voo para o norte.' },
+            { id: 'case24', num: 24, rank: 'Detetive Sênior', title: 'O Ovo Imperial de Moscou', artifact: 'Ovo Joia Fabergé de Esmeralda', icon: '🥚', villainId: 'jacare', maxHours: 88, route: ['moscou', 'pequim', 'seul', 'sydney', 'buenosaires'], story: 'Uma joia imperial inestimável foi levada da Praça Vermelha em Moscou! Cruze o planeta para recuperá-la.' },
+
+            // --- ÁS DA AGÊNCIA (Casos 25 a 30 | 6 Cidades | 84h) ---
+            { id: 'case25', num: 25, rank: 'Ás da Agência', title: 'O Enigma do Globo de Ouro', artifact: 'Globo Terrestre de Cristal e Ouro', icon: '🌍', villainId: 'camaleao', maxHours: 84, route: ['rio', 'paris', 'cairo', 'novadelhi', 'toquio', 'novayork'], story: 'MISSÃO DE ELITE: O Globo Terrestre de Cristal da Agência Pata & Lupa foi roubado! Apenas um Ás da Agência consegue vencer esta volta ao mundo em tempo recorde.' },
+            { id: 'case26', num: 26, rank: 'Ás da Agência', title: 'A Sinfonia Perdida dos Continentes', artifact: 'Partitura Original de Ouro', icon: '🎼', villainId: 'arara', maxHours: 84, route: ['buenosaires', 'madri', 'roma', 'istambul', 'bangkok', 'sydney'], story: 'MISSÃO DE ELITE: A Partitura de Ouro desapareceu! A Condessa Arara está deixando pistas musicais por seis capitais.' },
+            { id: 'case27', num: 27, rank: 'Ás da Agência', title: 'O Código Secreto dos Oceanos', artifact: 'Mapa das Fossas Submarinas', icon: '🔱', villainId: 'tamandua', maxHours: 84, route: ['lisboa', 'reykjavik', 'toronto', 'mexico', 'cusco', 'sydney'], story: 'MISSÃO DE ELITE: O Capitão Tamanduá roubou o Mapa das Fossas Submarinas! Intercepte-o antes que mergulhe.' },
+            { id: 'case28', num: 28, rank: 'Ás da Agência', title: 'A Coroa de Gelo e Fogo', artifact: 'Diadema Vulcânico de Diamantes', icon: '🌋', villainId: 'coruja', maxHours: 84, route: ['reykjavik', 'moscou', 'pequim', 'seul', 'toquio', 'nairobi'], story: 'MISSÃO DE ELITE: O Diadema Vulcânico sumiu da Islândia! A Duquesa Coruja voa sob a luz das estrelas.' },
+            { id: 'case29', num: 29, rank: 'Ás da Agência', title: 'O Tesouro das Sete Maravilhas', artifact: 'Medalhão das Maravilhas do Mundo', icon: '🏛️', villainId: 'cascavel', maxHours: 84, route: ['cairo', 'atenas', 'roma', 'paris', 'londres', 'novayork'], story: 'MISSÃO DE ELITE: A Doutora Cascavel está reunindo relíquias das maravilhas antigas e modernas em alta velocidade!' },
+            { id: 'case30', num: 30, rank: 'Ás da Agência', title: 'O Grande Desafio Final do Dudu', artifact: 'Medalha Suprema Pata & Lupa', icon: '🏆', villainId: 'falcao', maxHours: 84, route: ['nairobi', 'marrakech', 'madri', 'istambul', 'novadelhi', 'rio'], story: 'DESAFIO SUPREMO: O Mestre Falcão desafiou o Detetive Dudu roubando a Medalha Suprema da Agência! Mostre que você é o maior detetive do mundo!' }
+        ];
+
+        /* ==========================================================================
+           3. ESTADO GLOBAL DO JOGO E PROGRESSÃO DO DETETIVE DUDU
+           ========================================================================== */
+        let playerProgress = {
+            solvedCases: JSON.parse(localStorage.getItem('dudu_solved_cases_v2') || '[]')
+        };
+
+        let activeCaseFilter = 'ALL';
+
+        let gameState = {
+            activeCase: null,
+            villain: null,
+            route: [],
+            currentStepIndex: 0,
+            currentCityId: null,
+            isWrongCity: false,
+            previousValidCityId: null,
+            hoursElapsed: 0,
+            maxHours: 106,
+            hoursSinceSleep: 0,
+            warrantVillainId: null,
+            investigatedKeys: {},
+            notebook: [],
+            typingInterval: null,
+            lastSpokenClue: ''
+        };
+
+        const RANKS = [
+            { name: 'Novato', min: 0 },
+            { name: 'Investigador', min: 5 },
+            { name: 'Detetive Sênior', min: 12 },
+            { name: 'Ás da Agência', min: 20 }
+        ];
+
+        function getCurrentRank() {
+            const count = playerProgress.solvedCases.length;
+            let current = RANKS[0].name;
+            for (const r of RANKS) {
+                if (count >= r.min) current = r.name;
+            }
+            return current;
+        }
+
+        /* ==========================================================================
+           4. INICIALIZAÇÃO E RENDERIZAÇÃO DO MENU DOS 30 CASOS
+           ========================================================================== */
+        function initApp() {
+            updateRankUI();
+            renderCasesMenu();
+        }
+
+        function updateRankUI() {
+            const rank = getCurrentRank();
+            document.getElementById('hud-rank').textContent = `Patente: ${rank}`;
+            document.getElementById('menu-rank-label').textContent = rank;
+            document.getElementById('menu-solved-count').textContent = `${playerProgress.solvedCases.length}/${CASES.length}`;
+        }
+
+        function scrollToCases() {
+            SoundFX.click();
+            document.getElementById('cases-section').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function startNextUnsolvedCase() {
+            const nextCase = CASES.find(c => !playerProgress.solvedCases.includes(c.id)) || CASES[0];
+            startCase(nextCase.id);
+        }
+
+        function setCaseFilter(rankFilter) {
+            SoundFX.click();
+            activeCaseFilter = rankFilter;
+            document.querySelectorAll('.case-filter-btn').forEach(btn => {
+                if (btn.dataset.filter === rankFilter) {
+                    btn.className = 'case-filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-[#1b3628] text-amber-300 shadow';
+                } else {
+                    btn.className = 'case-filter-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-[#e6d5b8] text-[#5c3a21] hover:bg-[#d8c19c]';
+                }
+            });
+            renderCasesMenu();
+        }
+
+        function renderCasesMenu() {
+            const grid = document.getElementById('cases-grid');
+            grid.innerHTML = '';
+
+            const filteredCases = activeCaseFilter === 'ALL'
+                ? CASES
+                : CASES.filter(c => c.rank === activeCaseFilter);
+
+            filteredCases.forEach((c) => {
+                const isSolved = playerProgress.solvedCases.includes(c.id);
+                const startCity = CITIES[c.route[0]];
+
+                const rankColors = {
+                    'Novato': 'bg-emerald-100 text-emerald-900 border-emerald-300',
+                    'Investigador': 'bg-sky-100 text-sky-900 border-sky-300',
+                    'Detetive Sênior': 'bg-amber-100 text-amber-900 border-amber-300',
+                    'Ás da Agência': 'bg-rose-100 text-rose-900 border-rose-300'
+                };
+
+                const card = document.createElement('div');
+                card.className = `bg-[#fcf8ef] border-2 ${isSolved ? 'border-emerald-600' : 'border-[#c5ab82]'} rounded-2xl p-4 flex flex-col justify-between shadow-md hover:shadow-xl transition hover:-translate-y-1`;
+                card.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between gap-2 mb-2.5">
+                            <div class="flex items-center gap-2">
+                                <span class="text-2xl bg-amber-100 w-10 h-10 rounded-xl flex items-center justify-center border border-[#c5ab82]">${c.icon}</span>
+                                <span class="font-mono-tech text-xs font-bold text-[#5c3a21]">CASO #${String(c.num).padStart(2, '0')}</span>
+                            </div>
+                            ${isSolved
+                                ? '<span class="bg-emerald-100 text-emerald-800 border border-emerald-400 text-[11px] font-extrabold px-2.5 py-0.5 rounded-full">✅ Resolvido</span>'
+                                : `<span class="${rankColors[c.rank]} border text-[11px] font-bold px-2.5 py-0.5 rounded-full">${c.rank}</span>`
+                            }
+                        </div>
+                        <h4 class="text-base sm:text-lg font-bold text-[#1b3628] leading-snug mb-1">${c.title}</h4>
+                        <div class="text-[11px] font-bold text-amber-800 mb-2">🏆 Item: ${c.artifact}</div>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-3 line-clamp-3">${c.story}</p>
+                    </div>
+                    <div>
+                        <div class="text-[11px] font-bold text-[#5c3a21] mb-2.5 flex items-center justify-between border-t border-[#e6d5b8] pt-2">
+                            <span>📍 ${startCity.flag} ${startCity.name}</span>
+                            <span>🗺️ ${c.route.length} cidades • ${c.maxHours}h</span>
+                        </div>
+                        <button onclick="startCase('${c.id}')"
+                                class="w-full py-2.5 rounded-xl bg-[#1b3628] hover:bg-[#274c39] text-amber-300 font-bold text-xs sm:text-sm shadow flex items-center justify-center gap-2 transition active:scale-95">
+                            <img src="AVATAR_2.png" alt="" class="w-5 h-5 rounded-full object-cover object-top border border-amber-300" onerror="this.style.display='none'">
+                            <span>${isSolved ? '🔄 Rejogar Missão' : '🔍 Abrir & Ouvir Caso'}</span>
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        /* ==========================================================================
+           5. INÍCIO DE MISSÃO, LEITURA DO CASO E CONTROLE DE TEMPO
+           ========================================================================== */
+        function getBriefingNarrationText(c) {
+            const startCity = CITIES[c.route[0]];
+            return `Caso número ${c.num}: ${c.title}. Tesouro roubado: ${c.artifact}. ${c.story} Ponto de partida: ${startCity.name}, ${startCity.country}. Boa sorte, Detetive Dudu!`;
+        }
+
+        function replayBriefingVoice() {
+            if (!gameState.activeCase) return;
+            SoundFX.speak(getBriefingNarrationText(gameState.activeCase));
+        }
+
+        function startCase(caseId) {
+            SoundFX.click();
+            SoundFX.stopSpeech();
+            const selected = CASES.find(c => c.id === caseId);
+            if (!selected) return;
+
+            const villain = VILLAINS.find(v => v.id === selected.villainId);
+
+            gameState = {
+                activeCase: selected,
+                villain: villain,
+                route: [...selected.route],
+                currentStepIndex: 0,
+                currentCityId: selected.route[0],
+                isWrongCity: false,
+                previousValidCityId: selected.route[0],
+                hoursElapsed: 0,
+                maxHours: selected.maxHours,
+                hoursSinceSleep: 0,
+                warrantVillainId: null,
+                investigatedKeys: {},
+                notebook: [],
+                typingInterval: null,
+                lastSpokenClue: ''
+            };
+
+            // Configura UI
+            document.getElementById('screen-menu').classList.add('hidden');
+            document.getElementById('screen-game').classList.remove('hidden');
+            document.getElementById('hud-status-bar').classList.remove('hidden');
+            document.getElementById('hud-warrant-badge').classList.remove('hidden');
+            document.getElementById('hud-warrant-badge').classList.add('flex');
+            document.getElementById('btn-menu').classList.remove('hidden');
+
+            const box = document.getElementById('dudu-mascot-box');
+            if (box) {
+                box.classList.remove('dudu-celebrate', 'dudu-jump');
+                box.classList.add('dudu-idle');
+            }
+
+            resetFilters();
+            updateWarrantHUD();
+            updateClockUI();
+            renderNotebook();
+            loadCity(gameState.currentCityId);
+            switchTab('investigate');
+
+            // Abre modal de briefing
+            document.getElementById('briefing-rank-badge').textContent = `CASO #${String(selected.num).padStart(2, '0')} • ${selected.rank}`;
+            document.getElementById('briefing-title').textContent = selected.title;
+            document.getElementById('briefing-artifact').textContent = selected.artifact;
+            document.getElementById('briefing-story').textContent = selected.story;
+            document.getElementById('briefing-start-city').textContent = `${CITIES[selected.route[0]].name}, ${CITIES[selected.route[0]].country}`;
+            document.getElementById('briefing-stops').textContent = selected.route.length;
+            document.getElementById('briefing-hours').textContent = selected.maxHours;
+            document.getElementById('modal-briefing').classList.remove('hidden');
+
+            // Leitura automática do caso em áudio ao abrir!
+            setTimeout(() => {
+                SoundFX.speak(getBriefingNarrationText(selected));
+            }, 250);
+        }
+
+        function closeBriefing() {
+            SoundFX.click();
+            SoundFX.stopSpeech();
+            document.getElementById('modal-briefing').classList.add('hidden');
+        }
+
+        function returnToMenu() {
+            SoundFX.click();
+            SoundFX.stopSpeech();
+            if (gameState.typingInterval) clearInterval(gameState.typingInterval);
+            document.getElementById('modal-ending').classList.add('hidden');
+            document.getElementById('modal-briefing').classList.add('hidden');
+            document.getElementById('screen-game').classList.add('hidden');
+            document.getElementById('screen-menu').classList.remove('hidden');
+            document.getElementById('hud-status-bar').classList.add('hidden');
+            document.getElementById('hud-warrant-badge').classList.add('hidden');
+            document.getElementById('btn-menu').classList.add('hidden');
+            renderCasesMenu();
+        }
+
+        function advanceTime(hours) {
+            gameState.hoursElapsed += hours;
+            gameState.hoursSinceSleep += hours;
+
+            // Regra de descanso obrigatório a cada 18h acordado
+            if (gameState.hoursSinceSleep >= 18 && gameState.hoursElapsed < gameState.maxHours) {
+                gameState.hoursElapsed += 7;
+                gameState.hoursSinceSleep = 0;
+                showToast('😴 Dudu dormiu 7h para recuperar as energias!');
+            }
+
+            updateClockUI();
+
+            if (gameState.hoursElapsed >= gameState.maxHours) {
+                triggerGameOver(false, 'O prazo da missão terminou! O suspeito conseguiu escapar com o tesouro para um esconderijo desconhecido.');
+                return false;
+            }
+            return true;
+        }
+
+        function updateClockUI() {
+            const days = ['SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SÁB', 'DOM'];
+            const totalHoursFromMondayMidnight = 8 + gameState.hoursElapsed;
+            const dayIndex = Math.min(Math.floor(totalHoursFromMondayMidnight / 24), 6);
+            const hourOfDay = totalHoursFromMondayMidnight % 24;
+            const formattedHour = String(hourOfDay).padStart(2, '0') + ':00';
+
+            const clockStr = `${days[dayIndex]}, ${formattedHour}`;
+            document.getElementById('hud-clock').textContent = clockStr;
+
+            const remaining = Math.max(0, gameState.maxHours - gameState.hoursElapsed);
+            document.getElementById('deadline-label').textContent = `Caso #${String(gameState.activeCase.num).padStart(2, '0')} (${gameState.activeCase.rank})`;
+            document.getElementById('time-remaining-label').textContent = `${remaining}h restantes`;
+
+            const pct = Math.max(0, Math.min(100, (remaining / gameState.maxHours) * 100));
+            document.getElementById('time-progress-bar').style.width = `${pct}%`;
+        }
+
+        /* ==========================================================================
+           6. NAVEGAÇÃO DE ABAS E CARREGAMENTO DE CIDADE
+           ========================================================================== */
+        function switchTab(tabName) {
+            SoundFX.click();
+            const tabs = ['investigate', 'travel', 'computer', 'notebook'];
+            tabs.forEach(t => {
+                const panel = document.getElementById(`panel-${t}`);
+                const btn = document.getElementById(`tab-${t}`);
+                if (t === tabName) {
+                    panel.classList.remove('hidden');
+                    btn.className = 'tab-btn bg-amber-500 text-[#1b3628] font-bold px-3 py-2.5 rounded-xl text-xs sm:text-sm flex flex-col sm:flex-row items-center justify-center gap-1.5 shadow transition active:scale-95 relative';
+                } else {
+                    panel.classList.add('hidden');
+                    btn.className = 'tab-btn bg-[#274c39] hover:bg-[#34634b] text-white font-bold px-3 py-2.5 rounded-xl text-xs sm:text-sm flex flex-col sm:flex-row items-center justify-center gap-1.5 border border-[#c5ab82]/30 transition active:scale-95 relative';
+                }
+            });
+
+            if (tabName === 'travel') renderTravelOptions();
+            if (tabName === 'computer') filterSuspects();
+        }
+
+        function loadCity(cityId) {
+            const city = CITIES[cityId];
+            if (!city) return;
+
+            document.getElementById('hud-city').textContent = `${city.name}, ${city.country}`;
+            document.getElementById('city-title').textContent = city.name;
+            document.getElementById('city-country').textContent = `${city.country} • Moeda: ${city.currency}`;
+            document.getElementById('city-region-tag').textContent = city.region;
+            document.getElementById('city-flag-emoji').textContent = city.flag;
+            document.getElementById('city-landmark-emoji').textContent = city.landmarkEmoji;
+            document.getElementById('city-monument-tag').textContent = city.monument;
+            document.getElementById('city-description').textContent = city.description;
+
+            const banner = document.getElementById('city-visual-banner');
+            banner.className = `relative h-48 sm:h-56 p-5 flex flex-col justify-between text-white overflow-hidden transition-all duration-500 bg-gradient-to-br ${city.bgGradient}`;
+
+            // Dica contextual do Detetive Dudu
+            const hintEl = document.getElementById('dudu-hint-text');
+            if (gameState.isWrongCity) {
+                hintEl.textContent = '"Hmm... parece que pegamos o voo errado! Vamos checar um local ou voltar para a última cidade confirmada."';
+            } else if (gameState.currentStepIndex === gameState.route.length - 1) {
+                hintEl.textContent = '"Minhas orelhas estão formigando! O suspeito está escondido aqui! Verifique se já emitiu o Mandado antes de capturá-lo!"';
+            } else {
+                hintEl.textContent = '"Investigue os pontos desta cidade para ouvir as testemunhas e descobrir o próximo destino!"';
+            }
+
+            // Reseta visor de testemunha
+            document.getElementById('witness-avatar').textContent = '🕵️';
+            document.getElementById('witness-role').textContent = 'Aguardando Investigação';
+            document.getElementById('witness-name').textContent = 'Selecione um local acima';
+            document.getElementById('witness-dialogue').textContent = 'Escolha um dos pontos de interesse desta cidade para interrogar testemunhas e ouvir as pistas.';
+            document.getElementById('clue-saved-banner').classList.add('hidden');
+            document.getElementById('btn-replay-clue').classList.add('hidden');
+
+            renderLocations(city);
+        }
+
+        function renderLocations(city) {
+            const list = document.getElementById('locations-list');
+            list.innerHTML = '';
+
+            city.locations.forEach((loc, idx) => {
+                const key = `${city.id}_${idx}`;
+                const alreadyChecked = Boolean(gameState.investigatedKeys[key]);
+
+                const btn = document.createElement('button');
+                btn.onclick = () => investigateLocation(idx);
+                btn.className = `p-3.5 rounded-2xl border-2 text-left transition flex flex-col justify-between shadow-sm active:scale-95 ${
+                    alreadyChecked
+                        ? 'bg-emerald-50 border-emerald-500 text-emerald-950'
+                        : 'bg-white hover:bg-amber-50 border-[#c5ab82] text-slate-800'
+                }`;
+                btn.innerHTML = `
+                    <div class="flex items-center justify-between w-full mb-2">
+                        <span class="text-2xl">${loc.icon}</span>
+                        <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${alreadyChecked ? 'bg-emerald-200 text-emerald-900' : 'bg-[#e6d5b8] text-[#5c3a21]'}">
+                            ${alreadyChecked ? '✓ Visitado' : '-2h'}
+                        </span>
+                    </div>
+                    <div>
+                        <div class="font-bold text-sm leading-tight">${loc.name}</div>
+                        <div class="text-[11px] text-slate-500 mt-0.5">${loc.role}</div>
+                    </div>
+                `;
+                list.appendChild(btn);
+            });
+        }
+
+        /* ==========================================================================
+           7. MECÂNICA DE INVESTIGAÇÃO, LEITURA DE PISTAS E CONFRONTO FINAL
+           ========================================================================== */
+        function replayCurrentClue() {
+            if (gameState.lastSpokenClue) {
+                SoundFX.speak(gameState.lastSpokenClue);
+            }
+        }
+
+        function investigateLocation(locIndex) {
+            const city = CITIES[gameState.currentCityId];
+            const loc = city.locations[locIndex];
+            const key = `${city.id}_${locIndex}`;
+
+            animateDuduMascot('jump');
+
+            // Caso 1: Cidade Errada (Beco sem saída)
+            if (gameState.isWrongCity) {
+                SoundFX.click();
+                if (!gameState.investigatedKeys[key]) {
+                    if (!advanceTime(2)) return;
+                    gameState.investigatedKeys[key] = true;
+                    renderLocations(city);
+                }
+                const wrongMsg = `"Desculpe, Detetive Dudu! Ninguém com essa descrição passou por aqui recentemente. Acho que você seguiu uma pista falsa!"`;
+                gameState.lastSpokenClue = wrongMsg;
+                document.getElementById('btn-replay-clue').classList.remove('hidden');
+                SoundFX.speak(wrongMsg);
+                typeDialogue(loc.icon, `${loc.role} (${city.name})`, loc.witness, wrongMsg, false);
+                return;
+            }
+
+            // Caso 2: Última Cidade da Rota -> CONFRONTO FINAL!
+            const isFinalCity = (gameState.currentStepIndex === gameState.route.length - 1);
+            if (isFinalCity) {
+                if (!gameState.investigatedKeys[key]) {
+                    if (!advanceTime(2)) return;
+                    gameState.investigatedKeys[key] = true;
+                }
+
+                const visitedCountInFinal = Object.keys(gameState.investigatedKeys).filter(k => k.startsWith(city.id)).length;
+                if (visitedCountInFinal >= 2 || gameState.warrantVillainId) {
+                    resolveFinalConfrontation();
+                    return;
+                } else {
+                    const alertMsg = `"Cuidado, Detetive Dudu! Acabei de ver ${gameState.villain.name} correndo em direção ao próximo quarteirão! Confira se o seu Mandado de Prisão está pronto e investigue outro local aqui para cercá-lo!"`;
+                    gameState.lastSpokenClue = alertMsg;
+                    document.getElementById('btn-replay-clue').classList.remove('hidden');
+                    SoundFX.speak(alertMsg);
+                    typeDialogue(loc.icon, `${loc.role} (${city.name})`, loc.witness, alertMsg, false);
+                    renderLocations(city);
+                    return;
+                }
+            }
+
+            // Caso 3: Cidade Intermediária Correta -> Gera pista do PRÓXIMO destino + pista do VILÃO
+            const nextCityId = gameState.route[gameState.currentStepIndex + 1];
+            const nextCity = CITIES[nextCityId];
+            const v = gameState.villain;
+
+            if (!gameState.investigatedKeys[key]) {
+                if (!advanceTime(2)) return;
+
+                const geoClue = nextCity.clues[locIndex % nextCity.clues.length];
+                let traitClue = '';
+                if (locIndex === 0) {
+                    traitClue = `Notei que a pessoa tinha cabelo ${v.hair.toLowerCase()}, olhos ${v.eyes.toLowerCase()} e usava um ${v.accessory.toLowerCase()}.`;
+                } else if (locIndex === 1) {
+                    traitClue = `A testemunha embarcou em um ${v.vehicle.toLowerCase()} enquanto comia ${v.snack.toLowerCase()}.`;
+                } else {
+                    traitClue = `Antes de sair, comentou que adora ${v.hobby.toLowerCase()} e tinha olhos ${v.eyes.toLowerCase()}.`;
+                }
+
+                const fullText = `"${geoClue} Além disso, ${traitClue}"`;
+                gameState.investigatedKeys[key] = { witness: loc.witness, role: loc.role, text: fullText };
+
+                // Salva no caderno
+                gameState.notebook.unshift({
+                    city: city.name,
+                    location: loc.name,
+                    witness: loc.witness,
+                    text: fullText
+                });
+                renderNotebook();
+                renderLocations(city);
+            }
+
+            const saved = gameState.investigatedKeys[key];
+            gameState.lastSpokenClue = saved.text;
+            document.getElementById('btn-replay-clue').classList.remove('hidden');
+
+            // Lê automaticamente a pista em voz alta!
+            SoundFX.speak(saved.text);
+            typeDialogue(loc.icon, `${saved.role} • ${loc.name}`, saved.witness, saved.text, true);
+        }
+
+        function typeDialogue(emoji, role, name, text, showSavedBanner) {
+            if (gameState.typingInterval) clearInterval(gameState.typingInterval);
+
+            document.getElementById('witness-avatar').textContent = emoji;
+            document.getElementById('witness-role').textContent = role;
+            document.getElementById('witness-name').textContent = name;
+
+            const dialogueEl = document.getElementById('witness-dialogue');
+            const bannerEl = document.getElementById('clue-saved-banner');
+            dialogueEl.textContent = '';
+            bannerEl.classList.add('hidden');
+
+            let i = 0;
+            gameState.typingInterval = setInterval(() => {
+                dialogueEl.textContent += text.charAt(i);
+                if (i % 4 === 0 && !SoundFX.voiceEnabled) SoundFX.typeTick();
+                i++;
+                if (i >= text.length) {
+                    clearInterval(gameState.typingInterval);
+                    if (showSavedBanner) bannerEl.classList.remove('hidden');
+                }
+            }, 15);
+        }
+
+        function resolveFinalConfrontation() {
+            const v = gameState.villain;
+
+            if (!gameState.warrantVillainId) {
+                triggerGameOver(
+                    false,
+                    `Você encurralou ${v.name} em ${CITIES[gameState.currentCityId].name}, mas NÃO havia emitido um Mandado de Prisão no Computador da Agência! Sem ordem oficial, o suspeito escapou!`
+                );
+                return;
+            }
+
+            if (gameState.warrantVillainId !== v.id) {
+                const wrongSuspect = VILLAINS.find(x => x.id === gameState.warrantVillainId);
+                triggerGameOver(
+                    false,
+                    `Você encontrou ${v.name}, mas seu mandado estava emitido para ${wrongSuspect.name}! Por erro burocrático, o verdadeiro culpado fugiu!`
+                );
+                return;
+            }
+
+            // VITÓRIA!
+            if (!playerProgress.solvedCases.includes(gameState.activeCase.id)) {
+                playerProgress.solvedCases.push(gameState.activeCase.id);
+                localStorage.setItem('dudu_solved_cases_v2', JSON.stringify(playerProgress.solvedCases));
+                updateRankUI();
+            }
+
+            triggerGameOver(
+                true,
+                `Sensacional, Detetive Dudu! Com o mandado oficial em mãos, você capturou ${v.name} em ${CITIES[gameState.currentCityId].name} e recuperou ${gameState.activeCase.artifact}!`
+            );
+        }
+
+        function triggerGameOver(isVictory, message) {
+            SoundFX.stopSpeech();
+            if (isVictory) {
+                SoundFX.win();
+                animateDuduMascot('celebrate');
+            } else {
+                SoundFX.lose();
+            }
+
+            const modal = document.getElementById('modal-ending');
+            const bar = document.getElementById('ending-header-bar');
+            const badge = document.getElementById('ending-badge');
+            const title = document.getElementById('ending-title');
+            const msgEl = document.getElementById('ending-message');
+            const statsEl = document.getElementById('ending-stats');
+            const avatarBox = document.getElementById('ending-avatar-box');
+
+            if (isVictory) {
+                bar.className = 'h-3 w-full bg-emerald-500';
+                badge.className = 'inline-block px-4 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider mb-3 bg-emerald-100 text-emerald-900 border border-emerald-400';
+                badge.textContent = '🏆 MISSÃO CUMPRIDA';
+                title.textContent = 'Caso Encerrado com Sucesso!';
+                avatarBox.classList.add('dudu-celebrate');
+            } else {
+                bar.className = 'h-3 w-full bg-rose-600';
+                badge.className = 'inline-block px-4 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider mb-3 bg-rose-100 text-rose-900 border border-rose-400';
+                badge.textContent = '🚨 O SUSPEITO ESCAPOU';
+                title.textContent = 'Não foi desta vez, Dudu!';
+                avatarBox.classList.remove('dudu-celebrate');
+            }
+
+            msgEl.textContent = message;
+            statsEl.innerHTML = `
+                <div>⏱️ Tempo Usado: <strong>${gameState.hoursElapsed}h</strong></div>
+                <div>🐾 Patente: <strong>${getCurrentRank()}</strong></div>
+                <div>📂 Resolvidos: <strong>${playerProgress.solvedCases.length}/30</strong></div>
+            `;
+
+            modal.classList.remove('hidden');
+            setTimeout(() => SoundFX.speak(message), 300);
+        }
+
+        /* ==========================================================================
+           8. SISTEMA DE VIAGEM AÉREA (4 OPÇÕES: 1 CORRETA + 3 FALSAS)
+           ========================================================================== */
+        function renderTravelOptions() {
+            const grid = document.getElementById('travel-options-grid');
+            grid.innerHTML = '';
+
+            let candidateIds = [];
+
+            if (gameState.isWrongCity) {
+                candidateIds.push(gameState.previousValidCityId);
+            } else if (gameState.currentStepIndex < gameState.route.length - 1) {
+                candidateIds.push(gameState.route[gameState.currentStepIndex + 1]);
+            }
+
+            const allIds = Object.keys(CITIES).filter(id => id !== gameState.currentCityId && !candidateIds.includes(id));
+            allIds.sort(() => Math.random() - 0.5);
+            while (candidateIds.length < 4 && allIds.length > 0) {
+                candidateIds.push(allIds.pop());
+            }
+
+            candidateIds.sort(() => Math.random() - 0.5);
+
+            candidateIds.forEach((destId, idx) => {
+                const dest = CITIES[destId];
+                const flightHours = 4 + (idx % 3);
+                const isReturnTag = gameState.isWrongCity && destId === gameState.previousValidCityId;
+
+                const card = document.createElement('button');
+                card.onclick = () => flyToCity(destId, flightHours);
+                card.className = 'bg-white hover:bg-sky-50 border-2 border-[#c5ab82] hover:border-sky-500 rounded-2xl p-4 text-left transition flex flex-col justify-between shadow-sm active:scale-95';
+                card.innerHTML = `
+                    <div class="flex items-start justify-between w-full mb-2">
+                        <div class="flex items-center gap-2">
+                            <span class="text-2xl">${dest.flag}</span>
+                            <div>
+                                <div class="font-bold text-base text-[#1b3628]">${dest.name}</div>
+                                <div class="text-xs text-slate-500">${dest.country}</div>
+                            </div>
+                        </div>
+                        <span class="bg-sky-100 text-sky-900 text-xs font-extrabold px-2.5 py-1 rounded-lg">
+                            ✈️ ${flightHours}h
+                        </span>
+                    </div>
+                    <div class="text-xs text-slate-600 line-clamp-2 mb-2">${dest.description}</div>
+                    ${isReturnTag ? '<span class="inline-block text-[10px] font-bold bg-amber-100 text-amber-900 px-2 py-0.5 rounded">↩ Retornar à rota anterior</span>' : ''}
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function flyToCity(destId, hours) {
+            SoundFX.stopSpeech();
+            SoundFX.plane();
+            const origin = CITIES[gameState.currentCityId];
+            const dest = CITIES[destId];
+
+            const modal = document.getElementById('modal-flight');
+            const plane = document.getElementById('flying-plane-icon');
+            document.getElementById('flight-dest-title').textContent = `Voando para ${dest.name}...`;
+            document.getElementById('flight-origin-flag').textContent = origin.flag;
+            document.getElementById('flight-origin-name').textContent = origin.name;
+            document.getElementById('flight-dest-flag').textContent = dest.flag;
+            document.getElementById('flight-dest-name').textContent = dest.name;
+            document.getElementById('flight-duration-text').textContent = `Duração do voo: +${hours} horas`;
+
+            plane.classList.remove('animate-flight');
+            void plane.offsetWidth;
+            plane.classList.add('animate-flight');
+            modal.classList.remove('hidden');
+
+            setTimeout(() => {
+                modal.classList.add('hidden');
+
+                if (!advanceTime(hours)) return;
+
+                if (gameState.isWrongCity) {
+                    if (destId === gameState.previousValidCityId) {
+                        gameState.isWrongCity = false;
+                        gameState.currentCityId = destId;
+                    } else {
+                        gameState.currentCityId = destId;
+                    }
+                } else {
+                    const expectedNextId = gameState.route[gameState.currentStepIndex + 1];
+                    if (destId === expectedNextId) {
+                        gameState.currentStepIndex++;
+                        gameState.currentCityId = destId;
+                        gameState.previousValidCityId = destId;
+                        gameState.isWrongCity = false;
+                    } else {
+                        gameState.isWrongCity = true;
+                        gameState.currentCityId = destId;
+                    }
+                }
+
+                animateDuduMascot('jump');
+                loadCity(gameState.currentCityId);
+                switchTab('investigate');
+            }, 1600);
+        }
+
+        /* ==========================================================================
+           9. COMPUTADOR DA AGÊNCIA & EMISSÃO DE MANDADO
+           ========================================================================== */
+        function resetFilters() {
+            document.getElementById('filter-hair').value = '';
+            document.getElementById('filter-eyes').value = '';
+            document.getElementById('filter-accessory').value = '';
+            document.getElementById('filter-vehicle').value = '';
+            document.getElementById('filter-hobby').value = '';
+            document.getElementById('filter-snack').value = '';
+            filterSuspects();
+        }
+
+        function filterSuspects() {
+            const fHair = document.getElementById('filter-hair').value;
+            const fEyes = document.getElementById('filter-eyes').value;
+            const fAcc = document.getElementById('filter-accessory').value;
+            const fVeh = document.getElementById('filter-vehicle').value;
+            const fHob = document.getElementById('filter-hobby').value;
+            const fSnk = document.getElementById('filter-snack').value;
+
+            const matches = VILLAINS.filter(v => {
+                if (fHair && v.hair !== fHair) return false;
+                if (fEyes && v.eyes !== fEyes) return false;
+                if (fAcc && v.accessory !== fAcc) return false;
+                if (fVeh && v.vehicle !== fVeh) return false;
+                if (fHob && v.hobby !== fHob) return false;
+                if (fSnk && v.snack !== fSnk) return false;
+                return true;
+            });
+
+            document.getElementById('suspects-match-count').textContent = `${matches.length} encontrado(s)`;
+            const list = document.getElementById('suspects-list');
+            list.innerHTML = '';
+
+            if (matches.length === 0) {
+                list.innerHTML = `<div class="col-span-2 text-center text-xs text-amber-200 py-6">Nenhum suspeito corresponde a todas essas características juntas. Ajuste os filtros!</div>`;
+                return;
+            }
+
+            matches.forEach(v => {
+                const isIssued = gameState.warrantVillainId === v.id;
+                const card = document.createElement('div');
+                card.className = `p-2.5 rounded-xl border ${isIssued ? 'bg-amber-950/80 border-amber-400' : 'bg-[#274c39] border-[#3a634d]'} text-white flex flex-col justify-between gap-2`;
+                card.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <span class="text-2xl bg-[#1b3628] w-10 h-10 rounded-lg flex items-center justify-center border border-white/10">${v.emoji}</span>
+                        <div class="min-w-0">
+                            <div class="font-bold text-xs sm:text-sm text-amber-200 truncate">${v.name}</div>
+                            <div class="text-[10px] text-emerald-200 truncate">Cabelo ${v.hair} • Olhos ${v.eyes}</div>
+                            <div class="text-[10px] text-emerald-200 truncate">${v.accessory} • ${v.vehicle}</div>
+                            <div class="text-[10px] text-amber-100/80 truncate">${v.hobby} • ${v.snack}</div>
+                        </div>
+                    </div>
+                    <button onclick="issueWarrant('${v.id}')"
+                            class="w-full py-1.5 rounded-lg text-xs font-extrabold transition active:scale-95 ${
+                                isIssued
+                                    ? 'bg-emerald-500 text-[#1b3628] stamp-effect'
+                                    : 'bg-amber-500 hover:bg-amber-400 text-[#1b3628]'
+                            }">
+                        ${isIssued ? '📜 MANDADO EMITIDO!' : '⚖️ Emitir Mandado (-2h)'}
+                    </button>
+                `;
+                list.appendChild(card);
+            });
+        }
+
+        function issueWarrant(villainId) {
+            if (gameState.warrantVillainId === villainId) return;
+            SoundFX.stamp();
+            animateDuduMascot('jump');
+
+            if (!advanceTime(2)) return;
+
+            gameState.warrantVillainId = villainId;
+            updateWarrantHUD();
+            filterSuspects();
+
+            const v = VILLAINS.find(x => x.id === villainId);
+            showToast(`⚖️ Mandado emitido contra ${v.name}!`);
+        }
+
+        function updateWarrantHUD() {
+            const label = document.getElementById('hud-warrant-name');
+            if (!gameState.warrantVillainId) {
+                label.textContent = 'Nenhum';
+                label.className = 'font-bold text-slate-300';
+            } else {
+                const v = VILLAINS.find(x => x.id === gameState.warrantVillainId);
+                label.textContent = v.name;
+                label.className = 'font-bold text-amber-300';
+            }
+        }
+
+        /* ==========================================================================
+           10. CADERNO DE NOTAS (COM LEITURA EM ÁUDIO INDIVIDUAL) E TOASTS
+           ========================================================================== */
+        function renderNotebook() {
+            const container = document.getElementById('notebook-entries');
+            document.getElementById('clue-counter-badge').textContent = gameState.notebook.length;
+
+            if (gameState.notebook.length === 0) {
+                container.innerHTML = `<p class="text-sm text-slate-500 italic text-center py-8">Nenhuma pista anotada ainda. Comece investigando os locais da cidade atual!</p>`;
+                return;
+            }
+
+            container.innerHTML = '';
+            gameState.notebook.forEach((entry, idx) => {
+                const item = document.createElement('div');
+                item.className = 'bg-white/90 border border-[#c5ab82] rounded-xl p-3 shadow-sm';
+                item.innerHTML = `
+                    <div class="flex justify-between items-center text-[11px] font-bold text-[#5c3a21] mb-1">
+                        <span>📍 ${entry.city} — ${entry.location} (${entry.witness})</span>
+                        <button onclick="speakNotebookEntry(${idx})" title="Ouvir esta pista"
+                                class="bg-amber-100 hover:bg-amber-200 text-[#1b3628] px-2 py-0.5 rounded-md border border-[#c5ab82] text-[10px] font-bold">
+                            🔊 Ouvir
+                        </button>
+                    </div>
+                    <p class="text-xs sm:text-sm text-slate-800 leading-snug">${entry.text}</p>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        function speakNotebookEntry(idx) {
+            const entry = gameState.notebook[idx];
+            if (entry) SoundFX.speak(entry.text);
+        }
+
+        let toastTimeout = null;
+        function showToast(msg) {
+            const box = document.getElementById('toast-box');
+            document.getElementById('toast-text').textContent = msg;
+            box.classList.remove('hidden');
+            if (toastTimeout) clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => box.classList.add('hidden'), 3200);
+        }
+
+        window.onload = initApp;
+    </script>
+</body>
+</html>
